@@ -17,9 +17,10 @@ package validate
 import (
 	"reflect"
 
+	"google.golang.org/protobuf/types/known/structpb"
+
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/apis/istio/v1alpha1"
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/util"
-	"google.golang.org/protobuf/types/known/structpb"
 )
 
 // DefaultValuesValidations maps a data path to a validation function.

@@ -17,12 +17,11 @@ package verifier
 import (
 	"fmt"
 
+	"istio.io/istio/pkg/config"
+	"istio.io/istio/pkg/config/schema/collections"
 	appsv1 "k8s.io/api/apps/v1"
 	v1batch "k8s.io/api/batch/v1"
 	apimachinery_schema "k8s.io/apimachinery/pkg/runtime/schema"
-
-	"istio.io/istio/pkg/config"
-	"istio.io/istio/pkg/config/schema/collections"
 )
 
 func verifyDeploymentStatus(deployment *appsv1.Deployment) error {

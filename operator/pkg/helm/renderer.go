@@ -21,12 +21,12 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/util"
 	"helm.sh/helm/v3/pkg/chart"
 	"helm.sh/helm/v3/pkg/chart/loader"
+	"istio.io/istio/manifests"
 	"k8s.io/apimachinery/pkg/version"
 
-	"istio.io/istio/manifests"
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/util"
 )
 
 const (

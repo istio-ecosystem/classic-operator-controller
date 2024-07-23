@@ -21,9 +21,9 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/util"
-
 	"istio.io/istio/pkg/test/env"
+
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/util"
 )
 
 func TestReadLayeredYAMLs(t *testing.T) {

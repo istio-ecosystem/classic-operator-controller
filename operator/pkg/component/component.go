@@ -22,18 +22,18 @@ package component
 import (
 	"fmt"
 
+	"istio.io/api/operator/v1alpha1"
+	"istio.io/istio/pkg/log"
+	"istio.io/istio/pkg/util/sets"
+	"k8s.io/apimachinery/pkg/version"
+	"sigs.k8s.io/yaml"
+
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/helm"
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/metrics"
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/name"
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/patch"
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/tpath"
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/translate"
-	"k8s.io/apimachinery/pkg/version"
-	"sigs.k8s.io/yaml"
-
-	"istio.io/api/operator/v1alpha1"
-	"istio.io/istio/pkg/log"
-	"istio.io/istio/pkg/util/sets"
 )
 
 const (

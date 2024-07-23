@@ -19,9 +19,10 @@ import (
 	"os"
 	"path/filepath"
 
+	"github.com/spf13/cobra"
+
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/compare"
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/util"
-	"github.com/spf13/cobra"
 )
 
 // YAMLSuffix is the suffix of a YAML file.

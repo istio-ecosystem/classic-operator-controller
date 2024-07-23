@@ -30,11 +30,11 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/util"
 	"gopkg.in/yaml.v2"
+	"istio.io/istio/pkg/log"
 	yaml2 "sigs.k8s.io/yaml"
 
-	"istio.io/istio/pkg/log"
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/util"
 )
 
 var scope = log.RegisterScope("tpath", "tree traverser")

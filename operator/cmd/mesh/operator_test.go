@@ -20,17 +20,17 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/util"
-	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/util/clog"
+	"istio.io/istio/istioctl/pkg/cli"
+	"istio.io/istio/pkg/kube"
+	"istio.io/istio/pkg/test/env"
+	"istio.io/istio/pkg/test/util/assert"
 	"k8s.io/client-go/kubernetes/fake"
 	"k8s.io/client-go/rest"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/yaml"
 
-	"istio.io/istio/istioctl/pkg/cli"
-	"istio.io/istio/pkg/kube"
-	"istio.io/istio/pkg/test/env"
-	"istio.io/istio/pkg/test/util/assert"
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/util"
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/util/clog"
 )
 
 var (

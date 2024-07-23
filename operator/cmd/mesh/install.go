@@ -24,6 +24,19 @@ import (
 	"time"
 
 	"github.com/fatih/color"
+	"github.com/spf13/cobra"
+	"istio.io/api/operator/v1alpha1"
+	"istio.io/istio/istioctl/pkg/cli"
+	"istio.io/istio/istioctl/pkg/clioptions"
+	revtag "istio.io/istio/istioctl/pkg/tag"
+	"istio.io/istio/istioctl/pkg/util"
+	"istio.io/istio/pkg/art"
+	"istio.io/istio/pkg/config/constants"
+	"istio.io/istio/pkg/config/labels"
+	"istio.io/istio/pkg/kube"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"sigs.k8s.io/controller-runtime/pkg/client"
+
 	v1alpha12 "github.com/istio-ecosystem/classic-operator-controller/operator/pkg/apis/istio/v1alpha1"
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/cache"
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/helmreconciler"
@@ -35,19 +48,6 @@ import (
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/verifier"
 	pkgversion "github.com/istio-ecosystem/classic-operator-controller/operator/pkg/version"
 	operatorVer "github.com/istio-ecosystem/classic-operator-controller/operator/version"
-	"github.com/spf13/cobra"
-	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"sigs.k8s.io/controller-runtime/pkg/client"
-
-	"istio.io/api/operator/v1alpha1"
-	"istio.io/istio/istioctl/pkg/cli"
-	"istio.io/istio/istioctl/pkg/clioptions"
-	revtag "istio.io/istio/istioctl/pkg/tag"
-	"istio.io/istio/istioctl/pkg/util"
-	"istio.io/istio/pkg/art"
-	"istio.io/istio/pkg/config/constants"
-	"istio.io/istio/pkg/config/labels"
-	"istio.io/istio/pkg/kube"
 )
 
 type InstallArgs struct {

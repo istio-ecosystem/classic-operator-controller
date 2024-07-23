@@ -20,7 +20,6 @@ import (
 	"testing"
 
 	. "github.com/onsi/gomega"
-
 	"istio.io/istio/istioctl/pkg/cli"
 	"istio.io/istio/pkg/kube"
 	"istio.io/istio/pkg/test/env"

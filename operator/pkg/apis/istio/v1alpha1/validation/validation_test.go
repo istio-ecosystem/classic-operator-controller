@@ -21,16 +21,16 @@ import (
 	"strings"
 	"testing"
 
+	wrappers "google.golang.org/protobuf/types/known/wrapperspb"
+	v1alpha12 "istio.io/api/operator/v1alpha1"
+	"istio.io/istio/pkg/test/env"
+
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/apis/istio/v1alpha1"
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/apis/istio/v1alpha1/validation"
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/helm"
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/manifest"
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/util"
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/util/clog"
-	wrappers "google.golang.org/protobuf/types/known/wrapperspb"
-
-	v1alpha12 "istio.io/api/operator/v1alpha1"
-	"istio.io/istio/pkg/test/env"
 )
 
 const operatorSubdirFilePath = "manifests"

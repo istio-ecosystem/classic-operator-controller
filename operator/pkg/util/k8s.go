@@ -19,17 +19,17 @@ import (
 	"fmt"
 	"strconv"
 
-	iopv1alpha1 "github.com/istio-ecosystem/classic-operator-controller/operator/pkg/apis/istio/v1alpha1"
 	"github.com/prometheus/prometheus/util/strutil"
+	"istio.io/api/label"
+	"istio.io/istio/pkg/config/constants"
+	"istio.io/istio/pkg/kube"
 	v1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"k8s.io/client-go/kubernetes"
 
-	"istio.io/api/label"
-	"istio.io/istio/pkg/config/constants"
-	"istio.io/istio/pkg/kube"
+	iopv1alpha1 "github.com/istio-ecosystem/classic-operator-controller/operator/pkg/apis/istio/v1alpha1"
 )
 
 // GKString differs from default representation of GroupKind

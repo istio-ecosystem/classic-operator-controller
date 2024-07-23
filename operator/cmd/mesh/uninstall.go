@@ -20,6 +20,14 @@ import (
 	"os"
 	"strings"
 
+	"github.com/spf13/cobra"
+	"istio.io/api/operator/v1alpha1"
+	"istio.io/istio/istioctl/pkg/cli"
+	"istio.io/istio/istioctl/pkg/tag"
+	"istio.io/istio/pkg/kube"
+	proxyinfo "istio.io/istio/pkg/proxy"
+	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
+
 	iopv1alpha1 "github.com/istio-ecosystem/classic-operator-controller/operator/pkg/apis/istio/v1alpha1"
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/cache"
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/helmreconciler"
@@ -28,14 +36,6 @@ import (
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/translate"
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/util/clog"
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/util/progress"
-	"github.com/spf13/cobra"
-	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
-
-	"istio.io/api/operator/v1alpha1"
-	"istio.io/istio/istioctl/pkg/cli"
-	"istio.io/istio/istioctl/pkg/tag"
-	"istio.io/istio/pkg/kube"
-	proxyinfo "istio.io/istio/pkg/proxy"
 )
 
 type uninstallArgs struct {

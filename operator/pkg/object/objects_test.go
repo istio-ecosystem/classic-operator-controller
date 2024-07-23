@@ -22,11 +22,11 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/util"
+	"istio.io/istio/pkg/test/util/assert"
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 	k8syaml "k8s.io/apimachinery/pkg/util/yaml"
 
-	"istio.io/istio/pkg/test/util/assert"
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/util"
 )
 
 func TestHash(t *testing.T) {

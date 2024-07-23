@@ -19,7 +19,6 @@ import (
 	"testing"
 
 	"gopkg.in/yaml.v2"
-
 	"istio.io/istio/pkg/test/util/assert"
 )
 

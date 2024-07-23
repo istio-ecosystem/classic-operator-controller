@@ -19,19 +19,19 @@ import (
 	"strings"
 
 	"github.com/fatih/color"
-	iopv1alpha1 "github.com/istio-ecosystem/classic-operator-controller/operator/pkg/apis/istio/v1alpha1"
-	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/name"
-	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/translate"
-	operatorutil "github.com/istio-ecosystem/classic-operator-controller/operator/pkg/util"
-	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/util/clog"
 	"github.com/spf13/cobra"
-
 	"istio.io/api/operator/v1alpha1"
 	"istio.io/istio/istioctl/pkg/cli"
 	"istio.io/istio/pkg/config/constants"
 	"istio.io/istio/pkg/config/labels"
 	"istio.io/istio/pkg/kube"
 	buildversion "istio.io/istio/pkg/version"
+
+	iopv1alpha1 "github.com/istio-ecosystem/classic-operator-controller/operator/pkg/apis/istio/v1alpha1"
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/name"
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/translate"
+	operatorutil "github.com/istio-ecosystem/classic-operator-controller/operator/pkg/util"
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/util/clog"
 )
 
 type operatorInitArgs struct {

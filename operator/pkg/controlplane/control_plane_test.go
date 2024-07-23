@@ -19,12 +19,12 @@ import (
 	"reflect"
 	"testing"
 
+	"istio.io/api/operator/v1alpha1"
+
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/component"
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/name"
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/translate"
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/util"
-
-	"istio.io/api/operator/v1alpha1"
 )
 
 func TestOrderedKeys(t *testing.T) {

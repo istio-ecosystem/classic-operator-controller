@@ -20,16 +20,16 @@ import (
 	"regexp"
 	"strings"
 
+	. "github.com/onsi/gomega"
+	"github.com/onsi/gomega/types"
+	"istio.io/istio/pkg/log"
+	"istio.io/istio/pkg/test"
+	labels2 "k8s.io/apimachinery/pkg/labels"
+
 	name2 "github.com/istio-ecosystem/classic-operator-controller/operator/pkg/name"
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/object"
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/tpath"
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/util"
-	. "github.com/onsi/gomega"
-	"github.com/onsi/gomega/types"
-	labels2 "k8s.io/apimachinery/pkg/labels"
-
-	"istio.io/istio/pkg/log"
-	"istio.io/istio/pkg/test"
 )
 
 // PathValue is a path/value type.

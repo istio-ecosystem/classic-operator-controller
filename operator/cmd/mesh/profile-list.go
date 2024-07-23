@@ -17,8 +17,9 @@ package mesh
 import (
 	"sort"
 
-	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/helm"
 	"github.com/spf13/cobra"
+
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/helm"
 )
 
 type profileListArgs struct {

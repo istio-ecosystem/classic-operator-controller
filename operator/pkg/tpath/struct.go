@@ -22,8 +22,9 @@ import (
 	"reflect"
 	"strconv"
 
-	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/util"
 	"google.golang.org/protobuf/types/known/structpb"
+
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/util"
 )
 
 // GetFromStructPath returns the value at path from the given node, or false if the path does not exist.

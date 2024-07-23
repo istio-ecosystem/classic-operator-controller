@@ -19,16 +19,16 @@ import (
 	"os"
 
 	"github.com/fatih/color"
+	"github.com/spf13/cobra"
+	"istio.io/api/operator/v1alpha1"
+	"istio.io/istio/istioctl/pkg/cli"
+	"istio.io/istio/pkg/kube"
+
 	iopv1alpha1 "github.com/istio-ecosystem/classic-operator-controller/operator/pkg/apis/istio/v1alpha1"
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/helmreconciler"
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/name"
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/translate"
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/util/clog"
-	"github.com/spf13/cobra"
-
-	"istio.io/api/operator/v1alpha1"
-	"istio.io/istio/istioctl/pkg/cli"
-	"istio.io/istio/pkg/kube"
 )
 
 type operatorRemoveArgs struct {

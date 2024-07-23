@@ -21,13 +21,13 @@ import (
 	"strings"
 	"unicode"
 
+	wrappers "google.golang.org/protobuf/types/known/wrapperspb"
+	"istio.io/api/operator/v1alpha1"
+	"k8s.io/apimachinery/pkg/util/intstr"
+
 	valuesv1alpha1 "github.com/istio-ecosystem/classic-operator-controller/operator/pkg/apis/istio/v1alpha1"
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/tpath"
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/util"
-	wrappers "google.golang.org/protobuf/types/known/wrapperspb"
-	"k8s.io/apimachinery/pkg/util/intstr"
-
-	"istio.io/api/operator/v1alpha1"
 )
 
 const (

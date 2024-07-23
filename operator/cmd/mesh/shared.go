@@ -22,18 +22,18 @@ import (
 	"strings"
 	"time"
 
+	"istio.io/istio/istioctl/pkg/install/k8sversion"
+	"istio.io/istio/pkg/kube"
+	"istio.io/istio/pkg/log"
+	"sigs.k8s.io/controller-runtime/pkg/client"
+	controllruntimelog "sigs.k8s.io/controller-runtime/pkg/log"
+
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/apis/istio/v1alpha1"
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/cache"
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/helmreconciler"
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/manifest"
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/name"
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/util/clog"
-	"sigs.k8s.io/controller-runtime/pkg/client"
-	controllruntimelog "sigs.k8s.io/controller-runtime/pkg/log"
-
-	"istio.io/istio/istioctl/pkg/install/k8sversion"
-	"istio.io/istio/pkg/kube"
-	"istio.io/istio/pkg/log"
 )
 
 // installerScope is the scope for all commands in the mesh package.

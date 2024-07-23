@@ -18,9 +18,9 @@ import (
 	"io"
 	"strings"
 
-	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/name"
-
 	"istio.io/istio/pkg/log"
+
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/name"
 )
 
 const (

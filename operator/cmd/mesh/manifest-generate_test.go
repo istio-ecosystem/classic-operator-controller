@@ -29,18 +29,7 @@ import (
 	"testing"
 
 	"github.com/google/go-cmp/cmp"
-	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/compare"
-	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/helmreconciler"
-	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/manifest"
-	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/name"
-	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/object"
-	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/util"
-	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/util/clog"
 	. "github.com/onsi/gomega"
-	v1 "k8s.io/api/admissionregistration/v1"
-	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	klabels "k8s.io/apimachinery/pkg/labels"
-
 	tutil "istio.io/istio/pilot/test/util"
 	"istio.io/istio/pkg/file"
 	"istio.io/istio/pkg/kube"
@@ -48,6 +37,17 @@ import (
 	"istio.io/istio/pkg/test/env"
 	"istio.io/istio/pkg/test/util/assert"
 	"istio.io/istio/pkg/version"
+	v1 "k8s.io/api/admissionregistration/v1"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	klabels "k8s.io/apimachinery/pkg/labels"
+
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/compare"
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/helmreconciler"
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/manifest"
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/name"
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/object"
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/util"
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/util/clog"
 )
 
 const (

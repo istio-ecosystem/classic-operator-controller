@@ -25,10 +25,9 @@ import (
 	jsonpatch "github.com/evanphx/json-patch/v5" // nolint: staticcheck
 	"github.com/kylelemons/godebug/diff"
 	"google.golang.org/protobuf/proto"
+	"istio.io/istio/pkg/util/protomarshal"
 	yaml3 "k8s.io/apimachinery/pkg/util/yaml"
 	"sigs.k8s.io/yaml"
-
-	"istio.io/istio/pkg/util/protomarshal"
 )
 
 func ToYAMLGeneric(root any) ([]byte, error) {

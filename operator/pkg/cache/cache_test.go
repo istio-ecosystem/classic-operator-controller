@@ -19,8 +19,9 @@ import (
 	"sync"
 	"testing"
 
-	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/object"
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
+
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/object"
 )
 
 func TestFlushObjectCaches(t *testing.T) {

@@ -17,12 +17,12 @@ package translate
 import (
 	"testing"
 
+	"istio.io/istio/pkg/util/protomarshal"
+	"sigs.k8s.io/yaml"
+
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/apis/istio"
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/apis/istio/v1alpha1"
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/util"
-	"sigs.k8s.io/yaml"
-
-	"istio.io/istio/pkg/util/protomarshal"
 )
 
 func TestValueToProto(t *testing.T) {

@@ -18,13 +18,13 @@ import (
 	"fmt"
 	"testing"
 
+	"istio.io/api/operator/v1alpha1"
+	"istio.io/istio/pkg/test/util/assert"
+
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/name"
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/object"
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/tpath"
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/util"
-
-	"istio.io/api/operator/v1alpha1"
-	"istio.io/istio/pkg/test/util/assert"
 )
 
 func Test_skipReplicaCountWithAutoscaleEnabled(t *testing.T) {

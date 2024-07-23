@@ -19,14 +19,14 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/apis/istio/v1alpha1"
-	"sigs.k8s.io/yaml"
-
 	meshconfig "istio.io/api/mesh/v1alpha1"
 	v1alpha12 "istio.io/api/operator/v1alpha1"
 	"istio.io/istio/pkg/config/mesh"
 	"istio.io/istio/pkg/test/env"
 	"istio.io/istio/pkg/util/protomarshal"
+	"sigs.k8s.io/yaml"
+
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/apis/istio/v1alpha1"
 )
 
 func TestOverlayIOP(t *testing.T) {

@@ -18,15 +18,15 @@ import (
 	"fmt"
 	"sort"
 
+	"istio.io/api/operator/v1alpha1"
+	"istio.io/istio/pkg/util/sets"
+	"k8s.io/apimachinery/pkg/version"
+
 	iop "github.com/istio-ecosystem/classic-operator-controller/operator/pkg/apis/istio/v1alpha1"
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/component"
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/name"
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/translate"
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/util"
-	"k8s.io/apimachinery/pkg/version"
-
-	"istio.io/api/operator/v1alpha1"
-	"istio.io/istio/pkg/util/sets"
 )
 
 // IstioControlPlane is an installation of an Istio control plane.

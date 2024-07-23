@@ -51,7 +51,7 @@ linters-settings:
   goimports:
     # put imports beginning with prefix after 3rd-party packages;
     # it's a comma-separated list of prefixes
-    local-prefixes: istio.io/
+    local-prefixes: github.com/istio-ecosystem/classic-operator-controller/
   misspell:
     # Correct spellings using locale preferences for US or UK.
     # Default is to use a neutral variety of English.
@@ -189,12 +189,6 @@ linters-settings:
       - weakCond
   depguard:
     rules:
-      DenyGogoProtobuf:
-        files:
-          - $all
-        deny:
-          - pkg: github.com/gogo/protobuf
-            desc: "gogo/protobuf is deprecated, use golang/protobuf"
       # deny for all go files
       AllGoFiles:
         files:

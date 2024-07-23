@@ -16,15 +16,15 @@ package util
 import (
 	"testing"
 
-	pkgAPI "github.com/istio-ecosystem/classic-operator-controller/operator/pkg/apis/istio/v1alpha1"
+	"istio.io/istio/pkg/kube"
+	"istio.io/istio/pkg/test/util/assert"
 	v1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/version"
 	fakediscovery "k8s.io/client-go/discovery/fake"
 	"sigs.k8s.io/yaml"
 
-	"istio.io/istio/pkg/kube"
-	"istio.io/istio/pkg/test/util/assert"
+	operatorv1a1 "github.com/istio-ecosystem/classic-operator-controller/operator/pkg/apis/istio/v1alpha1"
 )
 
 var (
@@ -93,7 +93,7 @@ func TestValidateIOPCAConfig(t *testing.T) {
 			Major: tt.major,
 			Minor: tt.minor,
 		}
-		op := &pkgAPI.IstioOperator{}
+		op := &operatorv1a1.IstioOperator{}
 		err = yaml.Unmarshal([]byte(tt.operatorYaml), op)
 		if err != nil {
 			t.Fatalf("Failure in test case %v. Error %s", i, err)

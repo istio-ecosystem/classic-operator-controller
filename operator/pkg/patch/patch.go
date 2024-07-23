@@ -99,15 +99,15 @@ import (
 	"fmt"
 	"strings"
 
+	yaml2 "gopkg.in/yaml.v2"
+	"istio.io/api/operator/v1alpha1"
+	"istio.io/istio/pkg/log"
+
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/helm"
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/metrics"
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/object"
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/tpath"
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/util"
-	yaml2 "gopkg.in/yaml.v2"
-
-	"istio.io/api/operator/v1alpha1"
-	"istio.io/istio/pkg/log"
 )
 
 var scope = log.RegisterScope("patch", "patch")

@@ -17,8 +17,9 @@ package tpath
 import (
 	"testing"
 
-	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/util"
 	"sigs.k8s.io/yaml"
+
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/util"
 )
 
 func TestWritePathContext(t *testing.T) {

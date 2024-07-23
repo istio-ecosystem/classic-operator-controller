@@ -17,8 +17,9 @@ package metrics
 import (
 	"sync"
 
-	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/util"
 	"k8s.io/apimachinery/pkg/runtime/schema"
+
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/util"
 )
 
 // resourceCounts keeps track of the number of resources owned by each

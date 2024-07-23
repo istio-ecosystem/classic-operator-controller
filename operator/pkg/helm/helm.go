@@ -22,16 +22,16 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/util"
 	"helm.sh/helm/v3/pkg/chart"
 	"helm.sh/helm/v3/pkg/chartutil"
 	"helm.sh/helm/v3/pkg/engine"
-	"k8s.io/apimachinery/pkg/version"
-	"sigs.k8s.io/yaml"
-
 	"istio.io/istio/istioctl/pkg/install/k8sversion"
 	"istio.io/istio/manifests"
 	"istio.io/istio/pkg/log"
+	"k8s.io/apimachinery/pkg/version"
+	"sigs.k8s.io/yaml"
+
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/util"
 )
 
 const (

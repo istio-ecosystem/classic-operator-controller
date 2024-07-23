@@ -17,12 +17,12 @@ package istio
 import (
 	"fmt"
 
+	"istio.io/api/operator/v1alpha1"
+	"sigs.k8s.io/yaml"
+
 	operator_v1alpha1 "github.com/istio-ecosystem/classic-operator-controller/operator/pkg/apis/istio/v1alpha1"
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/util"
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/validate"
-	"sigs.k8s.io/yaml"
-
-	"istio.io/api/operator/v1alpha1"
 )
 
 // UnmarshalAndValidateIOPS unmarshals a string containing IstioOperator YAML, validates it, and returns a struct

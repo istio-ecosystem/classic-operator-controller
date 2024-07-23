@@ -20,14 +20,10 @@ import (
 	"strings"
 
 	"github.com/fatih/color"
-	operator_istio "github.com/istio-ecosystem/classic-operator-controller/operator/pkg/apis/istio"
-	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/apis/istio/v1alpha1"
-	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/controlplane"
-	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/helmreconciler"
-	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/manifest"
-	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/translate"
-	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/util"
-	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/util/clog"
+	"istio.io/api/label"
+	operatprv1alpha1 "istio.io/api/operator/v1alpha1"
+	"istio.io/istio/istioctl/pkg/clioptions"
+	"istio.io/istio/pkg/kube"
 	appsv1 "k8s.io/api/apps/v1"
 	v1batch "k8s.io/api/batch/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -39,10 +35,14 @@ import (
 	"k8s.io/client-go/kubernetes/scheme"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
-	"istio.io/api/label"
-	operatprv1alpha1 "istio.io/api/operator/v1alpha1"
-	"istio.io/istio/istioctl/pkg/clioptions"
-	"istio.io/istio/pkg/kube"
+	operator_istio "github.com/istio-ecosystem/classic-operator-controller/operator/pkg/apis/istio"
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/apis/istio/v1alpha1"
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/controlplane"
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/helmreconciler"
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/manifest"
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/translate"
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/util"
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/util/clog"
 )
 
 // specialKinds is a map of special kinds to their corresponding kind names, which do not follow the

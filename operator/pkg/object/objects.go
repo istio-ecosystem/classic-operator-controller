@@ -25,11 +25,7 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/apis/istio/v1alpha1"
-	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/helm"
-	names "github.com/istio-ecosystem/classic-operator-controller/operator/pkg/name"
-	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/tpath"
-	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/util"
+	"istio.io/istio/pkg/log"
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"k8s.io/apimachinery/pkg/runtime/serializer/json"
@@ -37,7 +33,11 @@ import (
 	k8syaml "k8s.io/apimachinery/pkg/util/yaml"
 	"sigs.k8s.io/yaml"
 
-	"istio.io/istio/pkg/log"
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/apis/istio/v1alpha1"
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/helm"
+	names "github.com/istio-ecosystem/classic-operator-controller/operator/pkg/name"
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/tpath"
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/util"
 )
 
 const (

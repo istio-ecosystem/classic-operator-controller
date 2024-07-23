@@ -17,12 +17,12 @@ package mesh
 import (
 	"fmt"
 
-	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/util/clog"
 	"github.com/spf13/cobra"
-
 	"istio.io/istio/pkg/config/constants"
 	"istio.io/istio/pkg/config/labels"
 	buildversion "istio.io/istio/pkg/version"
+
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/util/clog"
 )
 
 type operatorDumpArgs struct {

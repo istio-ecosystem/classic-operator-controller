@@ -17,9 +17,9 @@ package version
 import (
 	"time"
 
-	pkgversion "github.com/istio-ecosystem/classic-operator-controller/operator/pkg/version"
-
 	buildversion "istio.io/istio/pkg/version"
+
+	pkgversion "github.com/istio-ecosystem/classic-operator-controller/operator/pkg/version"
 )
 
 const (

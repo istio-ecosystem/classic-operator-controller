@@ -20,16 +20,16 @@ import (
 	"path/filepath"
 	"strings"
 
+	"github.com/spf13/cobra"
+	"istio.io/istio/istioctl/pkg/cli"
+	"istio.io/istio/pkg/kube"
+
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/helm"
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/helmreconciler"
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/manifest"
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/name"
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/object"
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/util/clog"
-	"github.com/spf13/cobra"
-
-	"istio.io/istio/istioctl/pkg/cli"
-	"istio.io/istio/pkg/kube"
 )
 
 type ManifestGenerateArgs struct {

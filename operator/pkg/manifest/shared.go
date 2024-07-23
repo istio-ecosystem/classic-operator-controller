@@ -22,6 +22,14 @@ import (
 	"strconv"
 	"strings"
 
+	"istio.io/api/operator/v1alpha1"
+	"istio.io/istio/pkg/kube"
+	"istio.io/istio/pkg/log"
+	"istio.io/istio/pkg/util/sets"
+	pkgversion "istio.io/istio/pkg/version"
+	"k8s.io/apimachinery/pkg/version"
+	"sigs.k8s.io/yaml"
+
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/apis/istio"
 	iopv1alpha1 "github.com/istio-ecosystem/classic-operator-controller/operator/pkg/apis/istio/v1alpha1"
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/apis/istio/v1alpha1/validation"
@@ -34,14 +42,6 @@ import (
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/util"
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/util/clog"
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/validate"
-	"k8s.io/apimachinery/pkg/version"
-	"sigs.k8s.io/yaml"
-
-	"istio.io/api/operator/v1alpha1"
-	"istio.io/istio/pkg/kube"
-	"istio.io/istio/pkg/log"
-	"istio.io/istio/pkg/util/sets"
-	pkgversion "istio.io/istio/pkg/version"
 )
 
 // installerScope is the scope for shared manifest package.

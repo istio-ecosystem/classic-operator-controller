@@ -20,12 +20,12 @@ import (
 	"path/filepath"
 	"testing"
 
+	"istio.io/istio/pkg/test/env"
+	"sigs.k8s.io/yaml"
+
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/helm"
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/object"
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/util"
-	"sigs.k8s.io/yaml"
-
-	"istio.io/istio/pkg/test/env"
 )
 
 var repoRootDir string

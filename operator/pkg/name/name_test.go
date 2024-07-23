@@ -18,11 +18,11 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/tpath"
-	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/util"
+	"istio.io/api/operator/v1alpha1"
 	"sigs.k8s.io/yaml"
 
-	"istio.io/api/operator/v1alpha1"
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/tpath"
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/util"
 )
 
 func TestGetFromTreePath(t *testing.T) {

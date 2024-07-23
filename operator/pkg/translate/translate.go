@@ -22,6 +22,17 @@ import (
 	"sort"
 	"strings"
 
+	"google.golang.org/protobuf/proto"
+	"google.golang.org/protobuf/types/known/structpb"
+	"istio.io/api/operator/v1alpha1"
+	"istio.io/istio/pkg/log"
+	"istio.io/istio/pkg/util/sets"
+	v1 "k8s.io/api/core/v1"
+	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
+	"k8s.io/apimachinery/pkg/util/strategicpatch"
+	"k8s.io/client-go/kubernetes/scheme"
+	"sigs.k8s.io/yaml"
+
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/apis/istio"
 	iopv1alpha1 "github.com/istio-ecosystem/classic-operator-controller/operator/pkg/apis/istio/v1alpha1"
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/name"
@@ -30,17 +41,6 @@ import (
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/util"
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/version"
 	oversion "github.com/istio-ecosystem/classic-operator-controller/operator/version"
-	"google.golang.org/protobuf/proto"
-	"google.golang.org/protobuf/types/known/structpb"
-	v1 "k8s.io/api/core/v1"
-	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
-	"k8s.io/apimachinery/pkg/util/strategicpatch"
-	"k8s.io/client-go/kubernetes/scheme"
-	"sigs.k8s.io/yaml"
-
-	"istio.io/api/operator/v1alpha1"
-	"istio.io/istio/pkg/log"
-	"istio.io/istio/pkg/util/sets"
 )
 
 const (

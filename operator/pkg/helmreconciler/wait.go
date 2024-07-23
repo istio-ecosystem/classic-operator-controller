@@ -21,9 +21,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/name"
-	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/object"
-	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/util/progress"
+	"istio.io/istio/pkg/kube"
 	appsv1 "k8s.io/api/apps/v1"
 	corev1 "k8s.io/api/core/v1"
 	apiextensions "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
@@ -33,7 +31,9 @@ import (
 	"k8s.io/client-go/kubernetes"
 	kctldeployment "k8s.io/kubectl/pkg/util/deployment"
 
-	"istio.io/istio/pkg/kube"
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/name"
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/object"
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/util/progress"
 )
 
 const (

@@ -17,12 +17,13 @@ package mesh
 import (
 	"context"
 
-	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/helm"
-	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/name"
-	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/util"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/client-go/kubernetes"
 	_ "k8s.io/client-go/plugin/pkg/client/auth" //  Import all Kubernetes client auth plugins (e.g. Azure, GCP, OIDC, etc.)
+
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/helm"
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/name"
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/util"
 )
 
 type operatorCommonArgs struct {

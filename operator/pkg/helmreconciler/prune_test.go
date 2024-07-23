@@ -19,20 +19,20 @@ import (
 	"sync"
 	"testing"
 
-	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/apis/istio/v1alpha1"
-	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/name"
-	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/object"
-	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/util/clog"
-	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/util/progress"
+	"istio.io/api/label"
+	"istio.io/istio/pkg/kube"
+	"istio.io/istio/pkg/test/util/assert"
 	v1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"sigs.k8s.io/controller-runtime/pkg/client/fake"
 	"sigs.k8s.io/yaml"
 
-	"istio.io/api/label"
-	"istio.io/istio/pkg/kube"
-	"istio.io/istio/pkg/test/util/assert"
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/apis/istio/v1alpha1"
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/name"
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/object"
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/util/clog"
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/util/progress"
 )
 
 var (

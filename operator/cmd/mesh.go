@@ -17,11 +17,11 @@ package main
 import (
 	"os"
 
-	"github.com/istio-ecosystem/classic-operator-controller/operator/cmd/mesh"
-	binversion "github.com/istio-ecosystem/classic-operator-controller/operator/version"
-
 	"istio.io/istio/istioctl/pkg/cli"
 	"istio.io/istio/pkg/version"
+
+	"github.com/istio-ecosystem/classic-operator-controller/operator/cmd/mesh"
+	binversion "github.com/istio-ecosystem/classic-operator-controller/operator/version"
 )
 
 func main() {

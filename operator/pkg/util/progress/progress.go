@@ -22,6 +22,7 @@ import (
 	"sync"
 
 	"github.com/cheggaaa/pb/v3"
+
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/name"
 )
 

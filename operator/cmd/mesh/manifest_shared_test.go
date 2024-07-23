@@ -23,13 +23,10 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/apis/istio/v1alpha1"
-	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/cache"
-	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/helmreconciler"
-	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/manifest"
-	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/name"
-	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/object"
-	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/util/clog"
+	"istio.io/istio/istioctl/pkg/cli"
+	"istio.io/istio/pkg/config/constants"
+	"istio.io/istio/pkg/kube"
+	"istio.io/istio/pkg/log"
 	kerrors "k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -41,10 +38,13 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client/interceptor"
 	"sigs.k8s.io/controller-runtime/pkg/envtest"
 
-	"istio.io/istio/istioctl/pkg/cli"
-	"istio.io/istio/pkg/config/constants"
-	"istio.io/istio/pkg/kube"
-	"istio.io/istio/pkg/log"
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/apis/istio/v1alpha1"
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/cache"
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/helmreconciler"
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/manifest"
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/name"
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/object"
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/util/clog"
 )
 
 // cmdType is one of the commands used to generate and optionally apply a manifest.

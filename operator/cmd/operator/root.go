@@ -18,7 +18,6 @@ import (
 	"flag"
 
 	"github.com/spf13/cobra"
-
 	"istio.io/istio/pkg/collateral"
 	"istio.io/istio/pkg/version"
 )
