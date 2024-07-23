@@ -19,15 +19,14 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/cache"
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/metrics"
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/name"
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/object"
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/util"
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/util/progress"
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 	"sigs.k8s.io/controller-runtime/pkg/client"
-
-	"istio.io/istio/operator/pkg/cache"
-	"istio.io/istio/operator/pkg/metrics"
-	"istio.io/istio/operator/pkg/name"
-	"istio.io/istio/operator/pkg/object"
-	"istio.io/istio/operator/pkg/util"
-	"istio.io/istio/operator/pkg/util/progress"
 )
 
 const fieldOwnerOperator = "istio-operator"

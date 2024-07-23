@@ -18,14 +18,14 @@ import (
 	"fmt"
 	"sort"
 
+	iop "github.com/istio-ecosystem/classic-operator-controller/operator/pkg/apis/istio/v1alpha1"
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/component"
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/name"
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/translate"
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/util"
 	"k8s.io/apimachinery/pkg/version"
 
 	"istio.io/api/operator/v1alpha1"
-	iop "istio.io/istio/operator/pkg/apis/istio/v1alpha1"
-	"istio.io/istio/operator/pkg/component"
-	"istio.io/istio/operator/pkg/name"
-	"istio.io/istio/operator/pkg/translate"
-	"istio.io/istio/operator/pkg/util"
 	"istio.io/istio/pkg/util/sets"
 )
 

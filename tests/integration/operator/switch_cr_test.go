@@ -27,14 +27,14 @@ import (
 	"time"
 
 	"github.com/hashicorp/go-multierror"
+	iopv1alpha1 "github.com/istio-ecosystem/classic-operator-controller/operator/pkg/apis/istio/v1alpha1"
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/object"
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/util"
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
 	"istio.io/api/label"
 	api "istio.io/api/operator/v1alpha1"
-	iopv1alpha1 "istio.io/istio/operator/pkg/apis/istio/v1alpha1"
-	"istio.io/istio/operator/pkg/object"
-	"istio.io/istio/operator/pkg/util"
 	"istio.io/istio/pkg/config/schema/gvr"
 	istioKube "istio.io/istio/pkg/kube"
 	"istio.io/istio/pkg/log"

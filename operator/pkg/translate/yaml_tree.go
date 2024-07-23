@@ -15,10 +15,9 @@
 package translate
 
 import (
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/tpath"
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/util"
 	"gopkg.in/yaml.v2"
-
-	"istio.io/istio/operator/pkg/tpath"
-	"istio.io/istio/operator/pkg/util"
 )
 
 // YAMLTree takes an input tree inTreeStr, a partially constructed output tree outTreeStr, and a map of

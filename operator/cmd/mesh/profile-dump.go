@@ -20,13 +20,12 @@ import (
 	"sort"
 	"strings"
 
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/manifest"
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/tpath"
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/util"
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/util/clog"
 	"github.com/spf13/cobra"
 	"sigs.k8s.io/yaml"
-
-	"istio.io/istio/operator/pkg/manifest"
-	"istio.io/istio/operator/pkg/tpath"
-	"istio.io/istio/operator/pkg/util"
-	"istio.io/istio/operator/pkg/util/clog"
 )
 
 type profileDumpArgs struct {

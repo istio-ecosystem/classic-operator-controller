@@ -22,8 +22,7 @@ import (
 	"sync"
 
 	"github.com/cheggaaa/pb/v3"
-
-	"istio.io/istio/operator/pkg/name"
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/name"
 )
 
 type InstallState int

@@ -19,8 +19,8 @@ import (
 
 	"github.com/spf13/cobra"
 
+	binversion "github.com/istio-ecosystem/classic-operator-controller/operator/version"
 	"istio.io/istio/istioctl/pkg/cli"
-	binversion "istio.io/istio/operator/version"
 	"istio.io/istio/pkg/url"
 	"istio.io/istio/pkg/version"
 )

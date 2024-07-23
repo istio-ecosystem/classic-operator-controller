@@ -19,10 +19,9 @@ util.go contains utility function for dealing with trees.
 package tpath
 
 import (
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/util"
 	"gopkg.in/yaml.v2"
 	yaml2 "sigs.k8s.io/yaml"
-
-	"istio.io/istio/operator/pkg/util"
 )
 
 // AddSpecRoot adds a root node called "spec" to the given tree and returns the resulting tree.

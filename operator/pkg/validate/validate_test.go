@@ -17,8 +17,9 @@ package validate
 import (
 	"testing"
 
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/util"
+
 	"istio.io/api/operator/v1alpha1"
-	"istio.io/istio/operator/pkg/util"
 )
 
 func TestValidate(t *testing.T) {

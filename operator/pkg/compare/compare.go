@@ -24,11 +24,11 @@ import (
 	"strings"
 
 	"github.com/google/go-cmp/cmp"
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/object"
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/tpath"
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/util"
 	"sigs.k8s.io/yaml"
 
-	"istio.io/istio/operator/pkg/object"
-	"istio.io/istio/operator/pkg/tpath"
-	"istio.io/istio/operator/pkg/util"
 	"istio.io/istio/pkg/log"
 )
 

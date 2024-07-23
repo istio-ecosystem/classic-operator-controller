@@ -20,9 +20,8 @@ import (
 	"regexp"
 	"testing"
 
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/util"
 	"github.com/kylelemons/godebug/diff"
-
-	"istio.io/istio/operator/pkg/util"
 )
 
 func TestProfileDump(t *testing.T) {

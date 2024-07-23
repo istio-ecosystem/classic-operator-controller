@@ -1,8 +1,0 @@
-apiVersion: release-notes/v2
-kind: bug-fix
-area: traffic-management
-issue:
-  - 50737
-releaseNotes:
-- |
-  **Fixed** added serverside keepalives to waypoint HBONE endpoints

@@ -15,10 +15,10 @@
 package mesh
 
 import (
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/util/clog"
 	"github.com/spf13/cobra"
 
 	"istio.io/istio/istioctl/pkg/cli"
-	"istio.io/istio/operator/pkg/util/clog"
 )
 
 type upgradeArgs struct {

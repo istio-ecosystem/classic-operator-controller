@@ -17,8 +17,8 @@ package cache
 import (
 	"sync"
 
-	"istio.io/istio/operator/pkg/metrics"
-	"istio.io/istio/operator/pkg/object"
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/metrics"
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/object"
 )
 
 // ObjectCache is a cache of objects,

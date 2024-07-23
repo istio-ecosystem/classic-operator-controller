@@ -19,11 +19,10 @@ import (
 	"io"
 	"os"
 
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/manifest"
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/util"
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/util/clog"
 	"github.com/spf13/cobra"
-
-	"istio.io/istio/operator/pkg/manifest"
-	"istio.io/istio/operator/pkg/util"
-	"istio.io/istio/operator/pkg/util/clog"
 )
 
 type profileDiffArgs struct {

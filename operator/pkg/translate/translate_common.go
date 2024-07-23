@@ -17,12 +17,12 @@ package translate
 import (
 	"fmt"
 
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/name"
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/tpath"
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/util"
 	"google.golang.org/protobuf/types/known/wrapperspb"
 
 	"istio.io/api/operator/v1alpha1"
-	"istio.io/istio/operator/pkg/name"
-	"istio.io/istio/operator/pkg/tpath"
-	"istio.io/istio/operator/pkg/util"
 )
 
 // IsComponentEnabledInSpec reports whether the given component is enabled in the given spec.

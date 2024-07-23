@@ -21,15 +21,15 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/apis/istio/v1alpha1"
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/apis/istio/v1alpha1/validation"
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/helm"
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/manifest"
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/util"
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/util/clog"
 	wrappers "google.golang.org/protobuf/types/known/wrapperspb"
 
 	v1alpha12 "istio.io/api/operator/v1alpha1"
-	"istio.io/istio/operator/pkg/apis/istio/v1alpha1"
-	"istio.io/istio/operator/pkg/apis/istio/v1alpha1/validation"
-	"istio.io/istio/operator/pkg/helm"
-	"istio.io/istio/operator/pkg/manifest"
-	"istio.io/istio/operator/pkg/util"
-	"istio.io/istio/operator/pkg/util/clog"
 	"istio.io/istio/pkg/test/env"
 )
 

@@ -19,7 +19,7 @@ import (
 	"io"
 	"testing"
 
-	"istio.io/istio/operator/pkg/name"
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/name"
 )
 
 func TestProgressLog(t *testing.T) {

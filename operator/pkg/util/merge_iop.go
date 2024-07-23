@@ -18,6 +18,7 @@ import (
 	"fmt"
 	"strings"
 
+	v1alpha12 "github.com/istio-ecosystem/classic-operator-controller/operator/pkg/apis/istio/v1alpha1"
 	"google.golang.org/protobuf/types/known/durationpb"
 	wrappers "google.golang.org/protobuf/types/known/wrapperspb"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -27,7 +28,6 @@ import (
 	v1alpha13 "istio.io/api/mesh/v1alpha1"
 	"istio.io/api/networking/v1alpha3"
 	"istio.io/api/operator/v1alpha1"
-	v1alpha12 "istio.io/istio/operator/pkg/apis/istio/v1alpha1"
 )
 
 // Partially mirrored from istio/api and operator/pkg/api (for values).

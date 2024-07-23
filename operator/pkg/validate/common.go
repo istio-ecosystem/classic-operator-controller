@@ -22,12 +22,12 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/apis/istio/v1alpha1"
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/util"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 	"sigs.k8s.io/yaml"
 
-	"istio.io/istio/operator/pkg/apis/istio/v1alpha1"
-	"istio.io/istio/operator/pkg/util"
 	"istio.io/istio/pkg/log"
 )
 

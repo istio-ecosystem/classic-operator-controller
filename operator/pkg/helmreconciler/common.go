@@ -18,7 +18,8 @@ import (
 	"io"
 	"strings"
 
-	"istio.io/istio/operator/pkg/name"
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/name"
+
 	"istio.io/istio/pkg/log"
 )
 

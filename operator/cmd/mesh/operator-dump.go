@@ -17,9 +17,9 @@ package mesh
 import (
 	"fmt"
 
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/util/clog"
 	"github.com/spf13/cobra"
 
-	"istio.io/istio/operator/pkg/util/clog"
 	"istio.io/istio/pkg/config/constants"
 	"istio.io/istio/pkg/config/labels"
 	buildversion "istio.io/istio/pkg/version"

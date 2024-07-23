@@ -18,10 +18,11 @@ import (
 	"fmt"
 	"strings"
 
+	iop "github.com/istio-ecosystem/classic-operator-controller/operator/pkg/apis/istio/v1alpha1"
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/helm"
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/tpath"
+
 	"istio.io/api/operator/v1alpha1"
-	iop "istio.io/istio/operator/pkg/apis/istio/v1alpha1"
-	"istio.io/istio/operator/pkg/helm"
-	"istio.io/istio/operator/pkg/tpath"
 )
 
 // Kubernetes Kind strings.

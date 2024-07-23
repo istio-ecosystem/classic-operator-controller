@@ -19,6 +19,11 @@ import (
 	"sync"
 	"testing"
 
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/apis/istio/v1alpha1"
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/name"
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/object"
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/util/clog"
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/util/progress"
 	v1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -26,11 +31,6 @@ import (
 	"sigs.k8s.io/yaml"
 
 	"istio.io/api/label"
-	"istio.io/istio/operator/pkg/apis/istio/v1alpha1"
-	"istio.io/istio/operator/pkg/name"
-	"istio.io/istio/operator/pkg/object"
-	"istio.io/istio/operator/pkg/util/clog"
-	"istio.io/istio/operator/pkg/util/progress"
 	"istio.io/istio/pkg/kube"
 	"istio.io/istio/pkg/test/util/assert"
 )

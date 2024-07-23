@@ -17,10 +17,10 @@ package helmreconciler
 import (
 	"fmt"
 
-	"istio.io/istio/operator/pkg/controlplane"
-	"istio.io/istio/operator/pkg/name"
-	"istio.io/istio/operator/pkg/translate"
-	"istio.io/istio/operator/pkg/validate"
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/controlplane"
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/name"
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/translate"
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/validate"
 )
 
 // RenderCharts renders charts for h.

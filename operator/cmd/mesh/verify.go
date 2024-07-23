@@ -17,14 +17,14 @@ package mesh
 import (
 	"fmt"
 
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/util/clog"
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/verifier"
 	"github.com/spf13/cobra"
 
 	"istio.io/istio/istioctl/pkg/cli"
 	"istio.io/istio/istioctl/pkg/clioptions"
 	"istio.io/istio/istioctl/pkg/util"
 	"istio.io/istio/istioctl/pkg/util/formatting"
-	"istio.io/istio/operator/pkg/util/clog"
-	"istio.io/istio/operator/pkg/verifier"
 )
 
 // NewVerifyCommand creates a new command for verifying Istio Installation Status

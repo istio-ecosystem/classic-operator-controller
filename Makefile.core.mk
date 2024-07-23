@@ -152,22 +152,9 @@ default: init build test
 
 .PHONY: init
 # Downloads envoy, based on the SHA defined in the base pilot Dockerfile
-init: $(TARGET_OUT)/istio_is_init init-ztunnel-rs
+init:
 	@mkdir -p ${TARGET_OUT}/logs
 	@mkdir -p ${TARGET_OUT}/release
-
-# I tried to make this dependent on what I thought was the appropriate
-# lock file, but it caused the rule for that file to get run (which
-# seems to be about obtaining a new version of the 3rd party libraries).
-$(TARGET_OUT)/istio_is_init: bin/init.sh istio.deps | $(TARGET_OUT)
-	@# Add a retry, as occasionally we see transient connection failures to GCS
-	@# Like `curl: (56) OpenSSL SSL_read: SSL_ERROR_SYSCALL, errno 104`
-	TARGET_OUT=$(TARGET_OUT) ISTIO_BIN=$(ISTIO_BIN) GOOS_LOCAL=$(GOOS_LOCAL) bin/retry.sh SSL_ERROR_SYSCALL bin/init.sh
-	touch $(TARGET_OUT)/istio_is_init
-
-.PHONY: init-ztunnel-rs
-init-ztunnel-rs:
-	TARGET_OUT=$(TARGET_OUT) bin/build_ztunnel.sh
 
 # Pull dependencies such as envoy
 depend: init | $(TARGET_OUT)
@@ -177,11 +164,6 @@ DIRS_TO_CLEAN += $(TARGET_OUT_LINUX)
 
 $(OUTPUT_DIRS):
 	@mkdir -p $@
-
-.PHONY: ${GEN_CERT}
-GEN_CERT := ${ISTIO_BIN}/generate_cert
-${GEN_CERT}:
-	GOOS=$(GOOS_LOCAL) && GOARCH=$(GOARCH_LOCAL) && common/scripts/gobuild.sh $@ ./security/tools/generate_cert
 
 #-----------------------------------------------------------------------------
 # Target: precommit
@@ -206,21 +188,9 @@ endif
 # List of all binaries to build
 # We split the binaries into "agent" binaries and standard ones. This corresponds to build "agent".
 # This allows conditional compilation to avoid pulling in costly dependencies to the agent, such as XDS and k8s.
-AGENT_BINARIES:=./pilot/cmd/pilot-agent
-STANDARD_BINARIES:=./istioctl/cmd/istioctl \
-  ./pilot/cmd/pilot-discovery \
-  ./pkg/test/echo/cmd/client \
-  ./pkg/test/echo/cmd/server \
-  ./samples/extauthz/cmd/extauthz \
-  ./operator/cmd/operator
+STANDARD_BINARIES:=./operator/cmd/operator
 
-# These are binaries that require Linux to build, and should
-# be skipped on other platforms. Notably this includes the current Linux-only Istio CNI plugin
-LINUX_AGENT_BINARIES:=./cni/cmd/istio-cni \
-  ./cni/cmd/install-cni \
-  $(AGENT_BINARIES)
-
-BINARIES:=$(STANDARD_BINARIES) $(AGENT_BINARIES) $(LINUX_AGENT_BINARIES)
+BINARIES:=$(STANDARD_BINARIES)
 
 # List of binaries that have their size tested
 RELEASE_SIZE_TEST_BINARIES:=pilot-discovery pilot-agent istioctl envoy ztunnel client server
@@ -236,7 +206,6 @@ STANDARD_TAGS=vtprotobuf,disable_pgv
 .PHONY: build
 build: depend ## Builds all go binaries.
 	GOOS=$(GOOS_LOCAL) GOARCH=$(GOARCH_LOCAL) LDFLAGS=$(RELEASE_LDFLAGS) common/scripts/gobuild.sh $(TARGET_OUT)/ -tags=$(STANDARD_TAGS) $(STANDARD_BINARIES)
-	GOOS=$(GOOS_LOCAL) GOARCH=$(GOARCH_LOCAL) LDFLAGS=$(RELEASE_LDFLAGS) common/scripts/gobuild.sh $(TARGET_OUT)/ -tags=$(AGENT_TAGS) $(AGENT_BINARIES)
 
 # The build-linux target is responsible for building binaries used within containers.
 # This target should be expanded upon as we add more Linux architectures: i.e. build-arm64.
@@ -245,7 +214,6 @@ build: depend ## Builds all go binaries.
 .PHONY: build-linux
 build-linux: depend
 	GOOS=linux GOARCH=$(GOARCH_LOCAL) LDFLAGS=$(RELEASE_LDFLAGS) common/scripts/gobuild.sh $(TARGET_OUT_LINUX)/ -tags=$(STANDARD_TAGS) $(STANDARD_BINARIES)
-	GOOS=linux GOARCH=$(GOARCH_LOCAL) LDFLAGS=$(RELEASE_LDFLAGS) common/scripts/gobuild.sh $(TARGET_OUT_LINUX)/ -tags=$(AGENT_TAGS) $(LINUX_AGENT_BINARIES)
 
 # Create targets for TARGET_OUT_LINUX/binary
 # There are two use cases here:
@@ -264,7 +232,6 @@ endif
 endef
 
 $(foreach bin,$(STANDARD_BINARIES),$(eval $(call build-linux,$(bin),$(STANDARD_TAGS))))
-$(foreach bin,$(LINUX_AGENT_BINARIES),$(eval $(call build-linux,$(bin),$(AGENT_TAGS))))
 
 # Create helper targets for each binary, like "pilot-discovery"
 # As an optimization, these still build everything
@@ -313,20 +280,9 @@ go-gen:
 	@PATH="${PATH}":/tmp/bin go generate ./...
 
 refresh-goldens:
-	@REFRESH_GOLDEN=true go test ${GOBUILDFLAGS} ./operator/... \
-		./pkg/bootstrap/... \
-		./pkg/kube/inject/... \
-		./pilot/pkg/security/authz/builder/... \
-		./cni/pkg/plugin/...
+	@REFRESH_GOLDEN=true go test ${GOBUILDFLAGS} ./operator/...
 
 update-golden: refresh-goldens
-
-# Keep dummy target since some build pipelines depend on this
-gen-charts:
-	@echo "This target is no longer required and will be removed in the future"
-
-gen-addons:
-	manifests/addons/gen.sh
 
 gen: \
 	mod-download-go \
@@ -336,7 +292,6 @@ gen: \
 	update-crds \
 	proto \
 	copy-templates \
-	gen-addons \
 	update-golden ## Update all generated code.
 
 gen-check: gen check-clean-repo
@@ -393,46 +348,6 @@ copy-templates:
 #-----------------------------------------------------------------------------
 # Target: go build
 #-----------------------------------------------------------------------------
-
-# Non-static istioctl targets. These are typically a build artifact.
-${TARGET_OUT}/release/istioctl-linux-amd64:
-	GOOS=linux GOARCH=amd64 LDFLAGS=$(RELEASE_LDFLAGS) common/scripts/gobuild.sh $@ ./istioctl/cmd/istioctl
-${TARGET_OUT}/release/istioctl-linux-armv7:
-	GOOS=linux GOARCH=arm GOARM=7 LDFLAGS=$(RELEASE_LDFLAGS) common/scripts/gobuild.sh $@ ./istioctl/cmd/istioctl
-${TARGET_OUT}/release/istioctl-linux-arm64:
-	GOOS=linux GOARCH=arm64 LDFLAGS=$(RELEASE_LDFLAGS) common/scripts/gobuild.sh $@ ./istioctl/cmd/istioctl
-${TARGET_OUT}/release/istioctl-osx:
-	GOOS=darwin GOARCH=amd64 LDFLAGS=$(RELEASE_LDFLAGS) common/scripts/gobuild.sh $@ ./istioctl/cmd/istioctl
-${TARGET_OUT}/release/istioctl-osx-arm64:
-	GOOS=darwin GOARCH=arm64 LDFLAGS=$(RELEASE_LDFLAGS) common/scripts/gobuild.sh $@ ./istioctl/cmd/istioctl
-${TARGET_OUT}/release/istioctl-win.exe:
-	GOOS=windows LDFLAGS=$(RELEASE_LDFLAGS) common/scripts/gobuild.sh $@ ./istioctl/cmd/istioctl
-
-# generate the istioctl completion files
-${TARGET_OUT}/release/istioctl.bash: ${LOCAL_OUT}/istioctl
-	${LOCAL_OUT}/istioctl completion bash > ${TARGET_OUT}/release/istioctl.bash
-
-${TARGET_OUT}/release/_istioctl: ${LOCAL_OUT}/istioctl
-	${LOCAL_OUT}/istioctl completion zsh > ${TARGET_OUT}/release/_istioctl
-
-.PHONY: binaries-test
-binaries-test:
-	go test ${GOBUILDFLAGS} ./tests/binary/... -v --base-dir ${TARGET_OUT} --binaries="$(RELEASE_SIZE_TEST_BINARIES)"
-
-# istioctl-all makes all of the non-static istioctl executables for each supported OS
-.PHONY: istioctl-all
-istioctl-all: ${TARGET_OUT}/release/istioctl-linux-amd64 ${TARGET_OUT}/release/istioctl-linux-armv7 ${TARGET_OUT}/release/istioctl-linux-arm64 \
-	${TARGET_OUT}/release/istioctl-osx \
-	${TARGET_OUT}/release/istioctl-osx-arm64 \
-	${TARGET_OUT}/release/istioctl-win.exe
-
-.PHONY: istioctl.completion
-istioctl.completion: ${TARGET_OUT}/release/istioctl.bash ${TARGET_OUT}/release/_istioctl
-
-# istioctl-install builds then installs istioctl into $GOPATH/BIN
-# Used for debugging istioctl during dev work
-.PHONY: istioctl-install-container
-istioctl-install-container: istioctl
 
 #-----------------------------------------------------------------------------
 # Target: test
@@ -511,31 +426,8 @@ update-crds:
 	bin/update_crds.sh
 
 #-----------------------------------------------------------------------------
-# Target: artifacts and distribution
-#-----------------------------------------------------------------------------
-# deb, rpm, etc packages
-include tools/packaging/packaging.mk
-
-#-----------------------------------------------------------------------------
 # Target: integration tests
 #-----------------------------------------------------------------------------
 include tests/integration/tests.mk
-
-#-----------------------------------------------------------------------------
-# Target: bookinfo sample
-#-----------------------------------------------------------------------------
-
-export BOOKINFO_VERSION ?= 1.18.0
-
-.PHONY: bookinfo.build bookinfo.push
-
-bookinfo.build:
-	@prow/buildx-create
-	@BOOKINFO_TAG=${BOOKINFO_VERSION} BOOKINFO_HUB=${HUB} samples/bookinfo/src/build-services.sh
-
-bookinfo.push: MULTI_ARCH=true
-bookinfo.push:
-	@prow/buildx-create
-	@BOOKINFO_TAG=${BOOKINFO_VERSION} BOOKINFO_HUB=${HUB} samples/bookinfo/src/build-services.sh --push
 
 include common/Makefile.common.mk

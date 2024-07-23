@@ -135,7 +135,7 @@ linters-settings:
     sections:
       - standard # Captures all standard packages if they do not match another section.
       - default # Contains all imports that could not be matched to another section type.
-      - prefix(istio.io/) # Groups all imports with the specified Prefix.
+      - prefix(github.com/istio-ecosystem/classic-operator-controller/) # Groups all imports with the specified Prefix.
   gocritic:
     # Disable all checks.
     # Default: false

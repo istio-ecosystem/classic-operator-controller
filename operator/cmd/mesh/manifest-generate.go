@@ -20,15 +20,15 @@ import (
 	"path/filepath"
 	"strings"
 
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/helm"
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/helmreconciler"
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/manifest"
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/name"
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/object"
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/util/clog"
 	"github.com/spf13/cobra"
 
 	"istio.io/istio/istioctl/pkg/cli"
-	"istio.io/istio/operator/pkg/helm"
-	"istio.io/istio/operator/pkg/helmreconciler"
-	"istio.io/istio/operator/pkg/manifest"
-	"istio.io/istio/operator/pkg/name"
-	"istio.io/istio/operator/pkg/object"
-	"istio.io/istio/operator/pkg/util/clog"
 	"istio.io/istio/pkg/kube"
 )
 

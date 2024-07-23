@@ -21,7 +21,7 @@ import (
 	"strings"
 	"testing"
 
-	"istio.io/istio/operator/pkg/util/clog"
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/util/clog"
 )
 
 type profileDiffTestcase struct {

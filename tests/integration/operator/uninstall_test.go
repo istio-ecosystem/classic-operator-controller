@@ -25,11 +25,11 @@ import (
 	"testing"
 	"time"
 
+	iopv1alpha1 "github.com/istio-ecosystem/classic-operator-controller/operator/pkg/apis/istio/v1alpha1"
 	corev1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	iopv1alpha1 "istio.io/istio/operator/pkg/apis/istio/v1alpha1"
 	istiokube "istio.io/istio/pkg/kube"
 	"istio.io/istio/pkg/log"
 	"istio.io/istio/pkg/test/framework"

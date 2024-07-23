@@ -20,14 +20,14 @@ import (
 	"regexp"
 	"strings"
 
+	name2 "github.com/istio-ecosystem/classic-operator-controller/operator/pkg/name"
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/object"
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/tpath"
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/util"
 	. "github.com/onsi/gomega"
 	"github.com/onsi/gomega/types"
 	labels2 "k8s.io/apimachinery/pkg/labels"
 
-	name2 "istio.io/istio/operator/pkg/name"
-	"istio.io/istio/operator/pkg/object"
-	"istio.io/istio/operator/pkg/tpath"
-	"istio.io/istio/operator/pkg/util"
 	"istio.io/istio/pkg/log"
 	"istio.io/istio/pkg/test"
 )

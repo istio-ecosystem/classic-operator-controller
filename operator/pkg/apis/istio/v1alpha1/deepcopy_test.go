@@ -19,12 +19,12 @@ import (
 	"testing"
 
 	"github.com/google/go-cmp/cmp"
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/apis/istio"
+	install "github.com/istio-ecosystem/classic-operator-controller/operator/pkg/apis/istio/v1alpha1"
 	"google.golang.org/protobuf/testing/protocmp"
 	"sigs.k8s.io/yaml"
 
 	v1alpha12 "istio.io/api/operator/v1alpha1"
-	"istio.io/istio/operator/pkg/apis/istio"
-	install "istio.io/istio/operator/pkg/apis/istio/v1alpha1"
 )
 
 // This is to verify that certain proto types handle marshal and unmarshal properly

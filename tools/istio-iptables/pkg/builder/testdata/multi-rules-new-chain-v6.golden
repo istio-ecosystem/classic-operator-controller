@@ -1,4 +1,0 @@
--t table -N chain
--t table -A chain -f foo -b bar
--t table -I chain 2 -f foo -b bar
--t table -I chain 1 -f foo -b bar

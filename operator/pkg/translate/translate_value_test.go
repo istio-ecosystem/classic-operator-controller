@@ -17,11 +17,11 @@ package translate
 import (
 	"testing"
 
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/apis/istio"
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/apis/istio/v1alpha1"
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/util"
 	"sigs.k8s.io/yaml"
 
-	"istio.io/istio/operator/pkg/apis/istio"
-	"istio.io/istio/operator/pkg/apis/istio/v1alpha1"
-	"istio.io/istio/operator/pkg/util"
 	"istio.io/istio/pkg/util/protomarshal"
 )
 

@@ -20,6 +20,11 @@ import (
 	"strings"
 	"time"
 
+	root "github.com/istio-ecosystem/classic-operator-controller/operator/cmd/mesh"
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/apis"
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/controller"
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/controller/istiocontrolplane"
+	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/metrics"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/spf13/cobra"
 	_ "k8s.io/client-go/plugin/pkg/client/auth" // Import all Kubernetes client auth plugins (e.g. Azure, GCP, OIDC, etc.)
@@ -30,11 +35,6 @@ import (
 	ctrlmetrics "sigs.k8s.io/controller-runtime/pkg/metrics"
 	metricsserver "sigs.k8s.io/controller-runtime/pkg/metrics/server"
 
-	root "istio.io/istio/operator/cmd/mesh"
-	"istio.io/istio/operator/pkg/apis"
-	"istio.io/istio/operator/pkg/controller"
-	"istio.io/istio/operator/pkg/controller/istiocontrolplane"
-	"istio.io/istio/operator/pkg/metrics"
 	"istio.io/istio/pkg/ctrlz"
 	"istio.io/istio/pkg/log"
 	"istio.io/istio/pkg/monitoring"
