@@ -55,6 +55,5 @@ if [ ! -f "${API_TMP}/kubernetes/customresourcedefinitions.gen.yaml" ]; then
 fi
 rm -f "${ROOTDIR}/manifests/charts/base/crds/crd-all.gen.yaml"
 cp "${API_TMP}/kubernetes/customresourcedefinitions.gen.yaml" "${ROOTDIR}/manifests/charts/base/crds/crd-all.gen.yaml"
-cp "${API_TMP}"/tests/testdata/* "${ROOTDIR}/pkg/config/validation/testdata/crds"
 
 cd "${ROOTDIR}"

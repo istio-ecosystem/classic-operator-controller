@@ -24,11 +24,11 @@ linters-settings:
     sections:
       - standard # Captures all standard packages if they do not match another section.
       - default # Contains all imports that could not be matched to another section type.
-      - prefix(istio.io/) # Groups all imports with the specified Prefix.
+      - prefix(github.com/istio-ecosystem/classic-operator-controller/) # Groups all imports with the specified Prefix.
   goimports:
     # put imports beginning with prefix after 3rd-party packages;
     # it's a comma-separated list of prefixes
-    local-prefixes: istio.io/
+    local-prefixes: github.com/istio-ecosystem/classic-operator-controller/
 issues:
   # Which dirs to exclude: issues from them won't be reported.
   # Can use regexp here: `generated.*`, regexp is applied on full path,
