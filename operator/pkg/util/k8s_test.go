@@ -16,6 +16,7 @@ package util
 import (
 	"testing"
 
+	operatorv1a1 "istio.io/istio/operator/pkg/apis/istio/v1alpha1"
 	"istio.io/istio/pkg/kube"
 	"istio.io/istio/pkg/test/util/assert"
 	v1 "k8s.io/api/core/v1"
@@ -23,8 +24,6 @@ import (
 	"k8s.io/apimachinery/pkg/version"
 	fakediscovery "k8s.io/client-go/discovery/fake"
 	"sigs.k8s.io/yaml"
-
-	operatorv1a1 "github.com/istio-ecosystem/classic-operator-controller/operator/pkg/apis/istio/v1alpha1"
 )
 
 var (

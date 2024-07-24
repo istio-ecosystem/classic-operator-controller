@@ -23,12 +23,12 @@ import (
 	"time"
 
 	"istio.io/istio/istioctl/pkg/install/k8sversion"
+	"istio.io/istio/operator/pkg/apis/istio/v1alpha1"
 	"istio.io/istio/pkg/kube"
 	"istio.io/istio/pkg/log"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	controllruntimelog "sigs.k8s.io/controller-runtime/pkg/log"
 
-	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/apis/istio/v1alpha1"
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/cache"
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/helmreconciler"
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/manifest"

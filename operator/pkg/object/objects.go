@@ -25,6 +25,7 @@ import (
 	"sort"
 	"strings"
 
+	"istio.io/istio/operator/pkg/apis/istio/v1alpha1"
 	"istio.io/istio/pkg/log"
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -33,7 +34,6 @@ import (
 	k8syaml "k8s.io/apimachinery/pkg/util/yaml"
 	"sigs.k8s.io/yaml"
 
-	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/apis/istio/v1alpha1"
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/helm"
 	names "github.com/istio-ecosystem/classic-operator-controller/operator/pkg/name"
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/tpath"

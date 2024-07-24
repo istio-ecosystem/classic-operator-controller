@@ -21,6 +21,7 @@ import (
 
 	"istio.io/api/label"
 	"istio.io/api/operator/v1alpha1"
+	iopv1alpha1 "istio.io/istio/operator/pkg/apis/istio/v1alpha1"
 	"istio.io/istio/pkg/config/constants"
 	"istio.io/istio/pkg/config/schema/gvk"
 	"istio.io/istio/pkg/kube"
@@ -34,7 +35,6 @@ import (
 	"k8s.io/apimachinery/pkg/selection"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
-	iopv1alpha1 "github.com/istio-ecosystem/classic-operator-controller/operator/pkg/apis/istio/v1alpha1"
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/cache"
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/metrics"
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/name"

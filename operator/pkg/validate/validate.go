@@ -21,11 +21,11 @@ import (
 
 	"google.golang.org/protobuf/types/known/structpb"
 	"istio.io/api/operator/v1alpha1"
+	operatorv1a1 "istio.io/istio/operator/pkg/apis/istio/v1alpha1"
 	"istio.io/istio/pkg/config/labels"
 	"istio.io/istio/pkg/config/mesh"
 	"istio.io/istio/pkg/util/protomarshal"
 
-	operator_v1alpha1 "github.com/istio-ecosystem/classic-operator-controller/operator/pkg/apis/istio/v1alpha1"
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/metrics"
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/tpath"
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/util"
@@ -49,7 +49,7 @@ var (
 )
 
 // CheckIstioOperator validates the operator CR.
-func CheckIstioOperator(iop *operator_v1alpha1.IstioOperator, checkRequiredFields bool) error {
+func CheckIstioOperator(iop *operatorv1a1.IstioOperator, checkRequiredFields bool) error {
 	if iop == nil {
 		return nil
 	}

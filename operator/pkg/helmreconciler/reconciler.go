@@ -26,6 +26,7 @@ import (
 	"istio.io/api/operator/v1alpha1"
 	revtag "istio.io/istio/istioctl/pkg/tag"
 	"istio.io/istio/istioctl/pkg/util/formatting"
+	istioV1Alpha1 "istio.io/istio/operator/pkg/apis/istio/v1alpha1"
 	"istio.io/istio/pkg/config"
 	"istio.io/istio/pkg/config/analysis"
 	"istio.io/istio/pkg/config/analysis/analyzers/webhook"
@@ -45,7 +46,6 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/yaml"
 
-	istioV1Alpha1 "github.com/istio-ecosystem/classic-operator-controller/operator/pkg/apis/istio/v1alpha1"
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/helm"
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/metrics"
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/name"

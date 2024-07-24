@@ -24,6 +24,7 @@ import (
 	"strings"
 
 	"istio.io/istio/istioctl/pkg/cli"
+	"istio.io/istio/operator/pkg/apis/istio/v1alpha1"
 	"istio.io/istio/pkg/config/constants"
 	"istio.io/istio/pkg/kube"
 	"istio.io/istio/pkg/log"
@@ -38,7 +39,6 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client/interceptor"
 	"sigs.k8s.io/controller-runtime/pkg/envtest"
 
-	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/apis/istio/v1alpha1"
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/cache"
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/helmreconciler"
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/manifest"

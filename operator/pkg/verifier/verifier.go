@@ -23,6 +23,8 @@ import (
 	"istio.io/api/label"
 	operatprv1alpha1 "istio.io/api/operator/v1alpha1"
 	"istio.io/istio/istioctl/pkg/clioptions"
+	"istio.io/istio/operator/pkg/apis/istio"
+	"istio.io/istio/operator/pkg/apis/istio/v1alpha1"
 	"istio.io/istio/pkg/kube"
 	appsv1 "k8s.io/api/apps/v1"
 	v1batch "k8s.io/api/batch/v1"
@@ -35,8 +37,6 @@ import (
 	"k8s.io/client-go/kubernetes/scheme"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
-	operator_istio "github.com/istio-ecosystem/classic-operator-controller/operator/pkg/apis/istio"
-	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/apis/istio/v1alpha1"
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/controlplane"
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/helmreconciler"
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/manifest"
@@ -335,7 +335,7 @@ func (v *StatusVerifier) verifyPostInstall(visitor resource.Visitor, filename st
 			fixTimestampRelatedUnmarshalIssues(un)
 
 			by := util.ToYAML(un)
-			unmergedIOP, err := operator_istio.UnmarshalIstioOperator(by, true)
+			unmergedIOP, err := istio.UnmarshalIstioOperator(by, true)
 			if err != nil {
 				v.reportFailure(kind, name, namespace, err)
 				return err
@@ -465,7 +465,7 @@ func AllOperatorsInCluster(client dynamic.Interface) ([]*v1alpha1.IstioOperator,
 	for _, un := range ul.Items {
 		fixTimestampRelatedUnmarshalIssues(&un)
 		by := util.ToYAML(un.Object)
-		iop, err := operator_istio.UnmarshalIstioOperator(by, true)
+		iop, err := istio.UnmarshalIstioOperator(by, true)
 		if err != nil {
 			return nil, err
 		}

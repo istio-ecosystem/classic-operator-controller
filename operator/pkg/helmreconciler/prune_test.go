@@ -20,6 +20,7 @@ import (
 	"testing"
 
 	"istio.io/api/label"
+	"istio.io/istio/operator/pkg/apis/istio/v1alpha1"
 	"istio.io/istio/pkg/kube"
 	"istio.io/istio/pkg/test/util/assert"
 	v1 "k8s.io/api/core/v1"
@@ -28,7 +29,6 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client/fake"
 	"sigs.k8s.io/yaml"
 
-	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/apis/istio/v1alpha1"
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/name"
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/object"
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/util/clog"

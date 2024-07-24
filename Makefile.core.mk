@@ -145,8 +145,6 @@ endif
 
 PROW_ARTIFACTS_BASE ?= https://gcsweb.istio.io/gcs/istio-prow
 
-include tools/proto/proto.mk
-
 .PHONY: default
 default: init build test
 
@@ -254,7 +252,7 @@ go-gen:
 	@PATH="${PATH}":/tmp/bin go generate ./...
 
 refresh-goldens:
-	@REFRESH_GOLDEN=true GOLANG_PROTOBUF_REGISTRATION_CONFLICT=warn go test ${GOBUILDFLAGS} ./operator/...
+	@REFRESH_GOLDEN=true go test ${GOBUILDFLAGS} ./operator/...
 
 update-golden: refresh-goldens
 
@@ -264,7 +262,6 @@ gen: \
 	mirror-licenses \
 	format \
 	update-crds \
-	proto \
 	copy-templates \
 	update-golden ## Update all generated code.
 

@@ -25,6 +25,8 @@ import (
 	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/types/known/structpb"
 	"istio.io/api/operator/v1alpha1"
+	"istio.io/istio/operator/pkg/apis/istio"
+	iopv1alpha1 "istio.io/istio/operator/pkg/apis/istio/v1alpha1"
 	"istio.io/istio/pkg/log"
 	"istio.io/istio/pkg/util/sets"
 	v1 "k8s.io/api/core/v1"
@@ -33,8 +35,6 @@ import (
 	"k8s.io/client-go/kubernetes/scheme"
 	"sigs.k8s.io/yaml"
 
-	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/apis/istio"
-	iopv1alpha1 "github.com/istio-ecosystem/classic-operator-controller/operator/pkg/apis/istio/v1alpha1"
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/name"
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/object"
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/tpath"

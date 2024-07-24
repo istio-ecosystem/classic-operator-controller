@@ -30,6 +30,7 @@ import (
 	"istio.io/istio/istioctl/pkg/clioptions"
 	revtag "istio.io/istio/istioctl/pkg/tag"
 	"istio.io/istio/istioctl/pkg/util"
+	operatorv1a1 "istio.io/istio/operator/pkg/apis/istio/v1alpha1"
 	"istio.io/istio/pkg/art"
 	"istio.io/istio/pkg/config/constants"
 	"istio.io/istio/pkg/config/labels"
@@ -37,7 +38,6 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
-	v1alpha12 "github.com/istio-ecosystem/classic-operator-controller/operator/pkg/apis/istio/v1alpha1"
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/cache"
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/helmreconciler"
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/manifest"
@@ -246,7 +246,7 @@ func Install(kubeClient kube.CLIClient, rootArgs *RootArgs, iArgs *InstallArgs, 
 //	DryRun  all operations are done but nothing is written
 //
 // Returns final IstioOperator after installation if successful.
-func InstallManifests(iop *v1alpha12.IstioOperator, force bool, dryRun bool, kubeClient kube.Client, client client.Client,
+func InstallManifests(iop *operatorv1a1.IstioOperator, force bool, dryRun bool, kubeClient kube.Client, client client.Client,
 	waitTimeout time.Duration, l clog.Logger,
 ) error {
 	// Needed in case we are running a test through this path that doesn't start a new process.
@@ -276,7 +276,7 @@ func InstallManifests(iop *v1alpha12.IstioOperator, force bool, dryRun bool, kub
 	return nil
 }
 
-func savedIOPName(iop *v1alpha12.IstioOperator) string {
+func savedIOPName(iop *operatorv1a1.IstioOperator) string {
 	ret := "installed-state"
 	if iop.Name != "" {
 		ret += "-" + iop.Name
@@ -289,7 +289,7 @@ func savedIOPName(iop *v1alpha12.IstioOperator) string {
 
 // detectIstioVersionDiff will show warning if istioctl version and control plane version are different
 // nolint: interfacer
-func detectIstioVersionDiff(p Printer, tag string, ns string, kubeClient kube.CLIClient, iop *v1alpha12.IstioOperator) error {
+func detectIstioVersionDiff(p Printer, tag string, ns string, kubeClient kube.CLIClient, iop *operatorv1a1.IstioOperator) error {
 	warnMarker := color.New(color.FgYellow).Add(color.Italic).Sprint("WARNING:")
 	revision := iop.Spec.Revision
 	if revision == "" {
@@ -354,7 +354,7 @@ func GetTagVersion(tagInfo string) (string, error) {
 
 // getProfileNSAndEnabledComponents get the profile and all the enabled components
 // from the given input files and --set flag overlays.
-func getProfileNSAndEnabledComponents(iop *v1alpha12.IstioOperator) (string, string, []string, error) {
+func getProfileNSAndEnabledComponents(iop *operatorv1a1.IstioOperator) (string, string, []string, error) {
 	var enabledComponents []string
 	if iop.Spec.Components != nil {
 		for _, c := range name.AllCoreComponentNames {
@@ -380,7 +380,7 @@ func getProfileNSAndEnabledComponents(iop *v1alpha12.IstioOperator) (string, str
 		}
 	}
 
-	if configuredNamespace := v1alpha12.Namespace(iop.Spec); configuredNamespace != "" {
+	if configuredNamespace := operatorv1a1.Namespace(iop.Spec); configuredNamespace != "" {
 		return iop.Spec.Profile, configuredNamespace, enabledComponents, nil
 	}
 	return iop.Spec.Profile, constants.IstioSystemNamespace, enabledComponents, nil
@@ -399,7 +399,7 @@ func humanReadableJoin(ss []string) string {
 	}
 }
 
-func detectDefaultWebhookChange(p Printer, client kube.CLIClient, iop *v1alpha12.IstioOperator, exists bool) error {
+func detectDefaultWebhookChange(p Printer, client kube.CLIClient, iop *operatorv1a1.IstioOperator, exists bool) error {
 	if !helmreconciler.DetectIfTagWebhookIsNeeded(iop, exists) {
 		return nil
 	}

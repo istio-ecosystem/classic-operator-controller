@@ -23,11 +23,10 @@ import (
 	meshv1a1 "istio.io/api/mesh/v1alpha1"
 	networkingv1a3 "istio.io/api/networking/v1alpha3"
 	"istio.io/api/operator/v1alpha1"
+	operatorv1a1 "istio.io/istio/operator/pkg/apis/istio/v1alpha1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/util/strategicpatch"
 	"sigs.k8s.io/yaml"
-
-	operatorv1a1 "github.com/istio-ecosystem/classic-operator-controller/operator/pkg/apis/istio/v1alpha1"
 )
 
 // Partially mirrored from istio/api and operator/pkg/api (for values).

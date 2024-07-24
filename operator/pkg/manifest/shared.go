@@ -23,6 +23,9 @@ import (
 	"strings"
 
 	"istio.io/api/operator/v1alpha1"
+	"istio.io/istio/operator/pkg/apis/istio"
+	iopv1alpha1 "istio.io/istio/operator/pkg/apis/istio/v1alpha1"
+	"istio.io/istio/operator/pkg/apis/istio/v1alpha1/validation"
 	"istio.io/istio/pkg/kube"
 	"istio.io/istio/pkg/log"
 	"istio.io/istio/pkg/util/sets"
@@ -30,9 +33,6 @@ import (
 	"k8s.io/apimachinery/pkg/version"
 	"sigs.k8s.io/yaml"
 
-	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/apis/istio"
-	iopv1alpha1 "github.com/istio-ecosystem/classic-operator-controller/operator/pkg/apis/istio/v1alpha1"
-	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/apis/istio/v1alpha1/validation"
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/controlplane"
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/helm"
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/name"
