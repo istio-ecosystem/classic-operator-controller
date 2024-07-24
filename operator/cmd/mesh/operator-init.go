@@ -20,9 +20,9 @@ import (
 
 	"github.com/fatih/color"
 	"github.com/spf13/cobra"
-	"istio.io/api/operator/v1alpha1"
+	iopv1a1 "istio.io/api/operator/v1alpha1"
 	"istio.io/istio/istioctl/pkg/cli"
-	iopv1alpha1 "istio.io/istio/operator/pkg/apis/istio/v1alpha1"
+	operatorv1a1 "istio.io/istio/operator/pkg/apis/istio/v1alpha1"
 	"istio.io/istio/pkg/config/constants"
 	"istio.io/istio/pkg/config/labels"
 	"istio.io/istio/pkg/kube"
@@ -123,9 +123,9 @@ func operatorInit(cliClient kube.CLIClient, args *RootArgs, oiArgs *operatorInit
 	if err != nil {
 		l.LogAndFatal(err)
 	}
-	var iop *iopv1alpha1.IstioOperator
+	var iop *operatorv1a1.IstioOperator
 	if oiArgs.common.revision != "" {
-		emptyiops := &v1alpha1.IstioOperatorSpec{Profile: "empty", Revision: oiArgs.common.revision}
+		emptyiops := &iopv1a1.IstioOperatorSpec{Profile: "empty", Revision: oiArgs.common.revision}
 		iop, err = translate.IOPStoIOP(emptyiops, "", "")
 		if err != nil {
 			l.LogAndFatal(err)

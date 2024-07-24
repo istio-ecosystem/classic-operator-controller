@@ -22,9 +22,9 @@ import (
 	"strconv"
 	"strings"
 
-	"istio.io/api/operator/v1alpha1"
+	iopv1a1 "istio.io/api/operator/v1alpha1"
 	"istio.io/istio/operator/pkg/apis/istio"
-	iopv1alpha1 "istio.io/istio/operator/pkg/apis/istio/v1alpha1"
+	operatorv1a1 "istio.io/istio/operator/pkg/apis/istio/v1alpha1"
 	"istio.io/istio/operator/pkg/apis/istio/v1alpha1/validation"
 	"istio.io/istio/pkg/kube"
 	"istio.io/istio/pkg/log"
@@ -53,7 +53,7 @@ var installerScope = log.RegisterScope("installer", "installer")
 // supplied logger.
 func GenManifests(inFilename []string, setFlags []string, force bool, filter []string,
 	client kube.Client, l clog.Logger,
-) (name.ManifestMap, *iopv1alpha1.IstioOperator, error) {
+) (name.ManifestMap, *operatorv1a1.IstioOperator, error) {
 	mergedYAML, _, err := GenerateConfig(inFilename, setFlags, force, client, l)
 	if err != nil {
 		return nil, nil, err
@@ -99,7 +99,7 @@ func GenManifests(inFilename []string, setFlags []string, force bool, filter []s
 // The force flag causes validation errors not to abort but only emit log/console warnings.
 func GenerateConfig(inFilenames []string, setFlags []string, force bool, client kube.Client,
 	l clog.Logger,
-) (string, *iopv1alpha1.IstioOperator, error) {
+) (string, *operatorv1a1.IstioOperator, error) {
 	if err := validateSetFlags(setFlags); err != nil {
 		return "", nil, err
 	}
@@ -114,7 +114,7 @@ func GenerateConfig(inFilenames []string, setFlags []string, force bool, client 
 
 func OverlayYAMLStrings(profile string, fy string,
 	setFlags []string, force bool, client kube.Client, l clog.Logger,
-) (string, *iopv1alpha1.IstioOperator, error) {
+) (string, *operatorv1a1.IstioOperator, error) {
 	iopsString, iops, err := GenIOPFromProfile(profile, fy, setFlags, force, false, client, l)
 	if err != nil {
 		return "", nil, err
@@ -135,7 +135,7 @@ func OverlayYAMLStrings(profile string, fy string,
 // files and the --set flag. If successful, it returns an IstioOperator string and struct.
 func GenIOPFromProfile(profileOrPath, fileOverlayYAML string, setFlags []string, skipValidation, allowUnknownField bool,
 	client kube.Client, l clog.Logger,
-) (string, *iopv1alpha1.IstioOperator, error) {
+) (string, *operatorv1a1.IstioOperator, error) {
 	installPackagePath, err := getInstallPackagePath(fileOverlayYAML)
 	if err != nil {
 		return "", nil, err
@@ -253,7 +253,7 @@ func ParseYAMLFiles(inFilenames []string, force bool, l clog.Logger) (overlayYAM
 	if err != nil {
 		return "", "", err
 	}
-	var fileOverlayIOP *iopv1alpha1.IstioOperator
+	var fileOverlayIOP *operatorv1a1.IstioOperator
 	fileOverlayIOP, err = validate.UnmarshalIOP(y)
 	if err != nil {
 		return "", "", err
@@ -325,7 +325,7 @@ func hasMultipleIOPs(s string) (bool, error) {
 	return false, nil
 }
 
-func GetProfile(iop *iopv1alpha1.IstioOperator) string {
+func GetProfile(iop *operatorv1a1.IstioOperator) string {
 	profile := "default"
 	if iop != nil && iop.Spec != nil && iop.Spec.Profile != "" {
 		profile = iop.Spec.Profile
@@ -335,7 +335,7 @@ func GetProfile(iop *iopv1alpha1.IstioOperator) string {
 
 func GetMergedIOP(userIOPStr, profile, manifestsPath, revision string, client kube.Client,
 	logger clog.Logger,
-) (*iopv1alpha1.IstioOperator, error) {
+) (*operatorv1a1.IstioOperator, error) {
 	extraFlags := make([]string, 0)
 	if manifestsPath != "" {
 		extraFlags = append(extraFlags, fmt.Sprintf("installPackagePath=%s", manifestsPath))
@@ -431,7 +431,7 @@ func makeTreeFromSetList(setOverlay []string) (string, error) {
 		if err != nil {
 			return "", err
 		}
-		iops := &v1alpha1.IstioOperatorSpec{}
+		iops := &iopv1a1.IstioOperatorSpec{}
 		if err := util.UnmarshalWithJSONPB(string(testTree), iops, false); err != nil {
 			return "", fmt.Errorf("bad path=value %s: %v", kv, err)
 		}
@@ -446,7 +446,7 @@ func makeTreeFromSetList(setOverlay []string) (string, error) {
 // unmarshalAndValidateIOP unmarshals a string containing IstioOperator YAML, validates it, and returns a struct
 // representation if successful. If force is set, validation errors are written to logger rather than causing an
 // error.
-func unmarshalAndValidateIOP(iopsYAML string, force, allowUnknownField bool, l clog.Logger) (*iopv1alpha1.IstioOperator, error) {
+func unmarshalAndValidateIOP(iopsYAML string, force, allowUnknownField bool, l clog.Logger) (*operatorv1a1.IstioOperator, error) {
 	iop, err := istio.UnmarshalIstioOperator(iopsYAML, allowUnknownField)
 	if err != nil {
 		return nil, fmt.Errorf("could not unmarshal merged YAML: %s\n\nYAML:\n%s", err, iopsYAML)

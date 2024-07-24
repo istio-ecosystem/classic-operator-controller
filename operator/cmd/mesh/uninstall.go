@@ -21,10 +21,10 @@ import (
 	"strings"
 
 	"github.com/spf13/cobra"
-	"istio.io/api/operator/v1alpha1"
+	iopv1a1 "istio.io/api/operator/v1alpha1"
 	"istio.io/istio/istioctl/pkg/cli"
 	"istio.io/istio/istioctl/pkg/tag"
-	iopv1alpha1 "istio.io/istio/operator/pkg/apis/istio/v1alpha1"
+	operatorv1a1 "istio.io/istio/operator/pkg/apis/istio/v1alpha1"
 	"istio.io/istio/pkg/kube"
 	proxyinfo "istio.io/istio/pkg/proxy"
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
@@ -156,9 +156,9 @@ func uninstall(cmd *cobra.Command, ctx cli.Context, rootArgs *RootArgs, uiArgs *
 	// If only revision flag is set, we would prune resources by the revision label.
 	// Otherwise we would merge the revision flag and the filename flag and delete resources by following the
 	// owning name label.
-	var iop *iopv1alpha1.IstioOperator
+	var iop *operatorv1a1.IstioOperator
 	if uiArgs.filename == "" {
-		emptyiops := &v1alpha1.IstioOperatorSpec{Profile: "empty", Revision: uiArgs.revision}
+		emptyiops := &iopv1a1.IstioOperatorSpec{Profile: "empty", Revision: uiArgs.revision}
 		iop, err = translate.IOPStoIOP(emptyiops, "", "")
 		if err != nil {
 			return err

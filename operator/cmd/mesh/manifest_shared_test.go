@@ -24,7 +24,7 @@ import (
 	"strings"
 
 	"istio.io/istio/istioctl/pkg/cli"
-	"istio.io/istio/operator/pkg/apis/istio/v1alpha1"
+	operatorv1a1 "istio.io/istio/operator/pkg/apis/istio/v1alpha1"
 	"istio.io/istio/pkg/config/constants"
 	"istio.io/istio/pkg/kube"
 	"istio.io/istio/pkg/log"
@@ -114,7 +114,7 @@ func recreateTestEnv() error {
 	}
 
 	s := scheme.Scheme
-	s.AddKnownTypes(v1alpha1.SchemeGroupVersion, &v1alpha1.IstioOperator{})
+	s.AddKnownTypes(operatorv1a1.SchemeGroupVersion, &operatorv1a1.IstioOperator{})
 
 	testClient, err = client.New(testRestConfig, client.Options{Scheme: s})
 	if err != nil {
@@ -155,7 +155,7 @@ func recreateSimpleTestEnv() {
 	log.Infof("Creating simple test environment\n")
 	helmreconciler.TestMode = true
 	s := scheme.Scheme
-	s.AddKnownTypes(v1alpha1.SchemeGroupVersion, &v1alpha1.IstioOperator{})
+	s.AddKnownTypes(operatorv1a1.SchemeGroupVersion, &operatorv1a1.IstioOperator{})
 
 	testClient = fake.NewClientBuilder().WithScheme(s).WithInterceptorFuncs(interceptorFunc).Build()
 }

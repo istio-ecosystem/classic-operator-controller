@@ -18,7 +18,7 @@ import (
 	"fmt"
 	"testing"
 
-	"istio.io/api/operator/v1alpha1"
+	iopv1a1 "istio.io/api/operator/v1alpha1"
 
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/util"
 )
@@ -223,7 +223,7 @@ a:
 	}
 	for _, tt := range tests {
 		t.Run(tt.desc, func(t *testing.T) {
-			rc := &v1alpha1.KubernetesResourcesSpec{}
+			rc := &iopv1a1.KubernetesResourcesSpec{}
 			oh := makeOverlayHeader(tt.path, tt.value)
 			err := util.UnmarshalWithJSONPB(oh, rc, false)
 			if err != nil {
@@ -473,7 +473,7 @@ spec:
 
 	for _, tt := range tests {
 		t.Run(tt.desc, func(t *testing.T) {
-			rc := &v1alpha1.KubernetesResourcesSpec{}
+			rc := &iopv1a1.KubernetesResourcesSpec{}
 			t.Log(makeOverlayHeader(tt.path, tt.value))
 			err := util.UnmarshalWithJSONPB(makeOverlayHeader(tt.path, tt.value), rc, false)
 			if err != nil {

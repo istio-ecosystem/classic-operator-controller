@@ -24,9 +24,9 @@ import (
 
 	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/types/known/structpb"
-	"istio.io/api/operator/v1alpha1"
+	iopv1a1 "istio.io/api/operator/v1alpha1"
 	"istio.io/istio/operator/pkg/apis/istio"
-	iopv1alpha1 "istio.io/istio/operator/pkg/apis/istio/v1alpha1"
+	operatorv1a1 "istio.io/istio/operator/pkg/apis/istio/v1alpha1"
 	"istio.io/istio/pkg/log"
 	"istio.io/istio/pkg/util/sets"
 	v1 "k8s.io/api/core/v1"
@@ -187,7 +187,7 @@ func NewTranslator() *Translator {
 }
 
 // OverlayK8sSettings overlays k8s settings from iop over the manifest objects, based on t's translation mappings.
-func (t *Translator) OverlayK8sSettings(yml string, iop *v1alpha1.IstioOperatorSpec, componentName name.ComponentName,
+func (t *Translator) OverlayK8sSettings(yml string, iop *iopv1a1.IstioOperatorSpec, componentName name.ComponentName,
 	resourceName string, index int) (string, error,
 ) {
 	// om is a map of kind:name string to Object ptr.
@@ -283,7 +283,7 @@ func (t *Translator) OverlayK8sSettings(yml string, iop *v1alpha1.IstioOperatorS
 		// Apply the workaround for merging service ports with (port,protocol) composite
 		// keys instead of just the merging by port.
 		if inPathParts[len(inPathParts)-1] == "Service" {
-			if msvc, ok := m.(*v1alpha1.ServiceSpec); ok {
+			if msvc, ok := m.(*iopv1a1.ServiceSpec); ok {
 				mergedObj, err = t.fixMergedObjectWithCustomServicePortOverlay(oo, msvc, mergedObj)
 				if err != nil {
 					return "", err
@@ -307,7 +307,7 @@ var componentToAutoScaleEnabledPath = map[name.ComponentName]string{
 	name.EgressComponentName:  "gateways.istio-egressgateway.autoscaleEnabled",
 }
 
-func skipReplicaCountWithAutoscaleEnabled(iop *v1alpha1.IstioOperatorSpec, componentName name.ComponentName) bool {
+func skipReplicaCountWithAutoscaleEnabled(iop *iopv1a1.IstioOperatorSpec, componentName name.ComponentName) bool {
 	values := iop.GetValues().AsMap()
 	path, ok := componentToAutoScaleEnabledPath[componentName]
 	if !ok {
@@ -324,7 +324,7 @@ func skipReplicaCountWithAutoscaleEnabled(iop *v1alpha1.IstioOperatorSpec, compo
 }
 
 func (t *Translator) fixMergedObjectWithCustomServicePortOverlay(oo *object.K8sObject,
-	msvc *v1alpha1.ServiceSpec, mergedObj *object.K8sObject,
+	msvc *iopv1a1.ServiceSpec, mergedObj *object.K8sObject,
 ) (*object.K8sObject, error) {
 	var basePorts []*v1.ServicePort
 	bps, _, err := unstructured.NestedSlice(oo.Unstructured(), "spec", "ports")
@@ -464,7 +464,7 @@ func strategicMergePorts(base, overlay []*v1.ServicePort) []*v1.ServicePort {
 }
 
 // ProtoToValues traverses the supplied IstioOperatorSpec and returns a values.yaml translation from it.
-func (t *Translator) ProtoToValues(ii *v1alpha1.IstioOperatorSpec) (string, error) {
+func (t *Translator) ProtoToValues(ii *iopv1a1.IstioOperatorSpec) (string, error) {
 	root, err := t.ProtoToHelmValues2(ii)
 	if err != nil {
 		return "", err
@@ -497,7 +497,7 @@ var topLevelFields = sets.New(
 )
 
 // TranslateHelmValues creates a Helm values.yaml config data tree from iop using the given translator.
-func (t *Translator) TranslateHelmValues(iop *v1alpha1.IstioOperatorSpec, componentsSpec any, componentName name.ComponentName) (string, error) {
+func (t *Translator) TranslateHelmValues(iop *iopv1a1.IstioOperatorSpec, componentsSpec any, componentName name.ComponentName) (string, error) {
 	apiVals := make(map[string]any)
 
 	// First, translate the IstioOperator API to helm Values.
@@ -577,7 +577,7 @@ func applyGatewayTranslations(iop []byte, componentName name.ComponentName, comp
 	if err := yaml.Unmarshal(iop, &iopt); err != nil {
 		return nil, err
 	}
-	gwSpec := componentSpec.(*v1alpha1.GatewaySpec)
+	gwSpec := componentSpec.(*iopv1a1.GatewaySpec)
 	k8s := gwSpec.K8S
 	switch componentName {
 	case name.IngressComponentName:
@@ -637,7 +637,7 @@ func (t *Translator) ComponentMap(cns string) *ComponentMaps {
 	return t.ComponentMaps[cn]
 }
 
-func (t *Translator) ProtoToHelmValues2(ii *v1alpha1.IstioOperatorSpec) (map[string]any, error) {
+func (t *Translator) ProtoToHelmValues2(ii *iopv1a1.IstioOperatorSpec) (map[string]any, error) {
 	by, err := json.Marshal(ii)
 	if err != nil {
 		return nil, err
@@ -709,7 +709,7 @@ func (t *Translator) ProtoToHelmValues(node any, root map[string]any, path util.
 
 // setComponentProperties translates properties (e.g., enablement and namespace) of each component
 // in the baseYAML values tree, based on feature/component inheritance relationship.
-func (t *Translator) setComponentProperties(root map[string]any, iop *v1alpha1.IstioOperatorSpec) error {
+func (t *Translator) setComponentProperties(root map[string]any, iop *iopv1a1.IstioOperatorSpec) error {
 	var keys []string
 	for k := range t.ComponentMaps {
 		if k != name.IngressComponentName && k != name.EgressComponentName {
@@ -777,7 +777,7 @@ func (t *Translator) setComponentProperties(root map[string]any, iop *v1alpha1.I
 
 // IsComponentEnabled reports whether the component with name cn is enabled, according to the translations in t,
 // and the contents of ocp.
-func (t *Translator) IsComponentEnabled(cn name.ComponentName, iop *v1alpha1.IstioOperatorSpec) (bool, error) {
+func (t *Translator) IsComponentEnabled(cn name.ComponentName, iop *iopv1a1.IstioOperatorSpec) (bool, error) {
 	if t.ComponentMaps[cn] == nil {
 		return false, nil
 	}
@@ -1015,7 +1015,7 @@ func createPatchObjectFromPath(node any, path util.Path) (map[string]any, error)
 }
 
 // IOPStoIOP takes an IstioOperatorSpec and returns a corresponding IstioOperator with the given name and namespace.
-func IOPStoIOP(iops proto.Message, name, namespace string) (*iopv1alpha1.IstioOperator, error) {
+func IOPStoIOP(iops proto.Message, name, namespace string) (*operatorv1a1.IstioOperator, error) {
 	iopStr, err := IOPStoIOPstr(iops, name, namespace)
 	if err != nil {
 		return nil, err

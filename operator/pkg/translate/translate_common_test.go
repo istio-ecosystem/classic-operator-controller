@@ -17,7 +17,7 @@ package translate
 import (
 	"testing"
 
-	"istio.io/api/operator/v1alpha1"
+	iopv1a1 "istio.io/api/operator/v1alpha1"
 
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/name"
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/util"
@@ -79,7 +79,7 @@ components:
 
 	for _, tt := range tests {
 		t.Run(tt.desc, func(t *testing.T) {
-			iopSpec := &v1alpha1.IstioOperatorSpec{}
+			iopSpec := &iopv1a1.IstioOperatorSpec{}
 			err := util.UnmarshalWithJSONPB(tt.yamlStr, iopSpec, false)
 			if err != nil {
 				t.Fatalf("unmarshalWithJSONPB(%s): got error %s", tt.desc, err)

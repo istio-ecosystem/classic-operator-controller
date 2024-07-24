@@ -18,8 +18,8 @@ import (
 	"fmt"
 	"sort"
 
-	"istio.io/api/operator/v1alpha1"
-	iop "istio.io/istio/operator/pkg/apis/istio/v1alpha1"
+	iopv1a1 "istio.io/api/operator/v1alpha1"
+	operatorv1a1 "istio.io/istio/operator/pkg/apis/istio/v1alpha1"
 	"istio.io/istio/pkg/util/sets"
 	"k8s.io/apimachinery/pkg/version"
 
@@ -38,7 +38,7 @@ type IstioControlPlane struct {
 
 // NewIstioControlPlane creates a new IstioControlPlane and returns a pointer to it.
 func NewIstioControlPlane(
-	installSpec *v1alpha1.IstioOperatorSpec,
+	installSpec *iopv1a1.IstioOperatorSpec,
 	translator *translate.Translator,
 	filter []string,
 	ver *version.Info,
@@ -63,19 +63,19 @@ func NewIstioControlPlane(
 	if installSpec.Components != nil {
 		for idx, c := range installSpec.Components.IngressGateways {
 			o := *opts
-			o.Namespace = defaultIfEmpty(c.Namespace, iop.Namespace(installSpec))
+			o.Namespace = defaultIfEmpty(c.Namespace, operatorv1a1.Namespace(installSpec))
 			out.components = append(out.components, component.NewIngressComponent(c.Name, idx, c, &o))
 		}
 		for idx, c := range installSpec.Components.EgressGateways {
 			o := *opts
-			o.Namespace = defaultIfEmpty(c.Namespace, iop.Namespace(installSpec))
+			o.Namespace = defaultIfEmpty(c.Namespace, operatorv1a1.Namespace(installSpec))
 			out.components = append(out.components, component.NewEgressComponent(c.Name, idx, c, &o))
 		}
 	}
 	return out, nil
 }
 
-func orderedKeys(m map[string]*v1alpha1.ExternalComponentSpec) []string {
+func orderedKeys(m map[string]*iopv1a1.ExternalComponentSpec) []string {
 	var keys []string
 	for k := range m {
 		keys = append(keys, k)

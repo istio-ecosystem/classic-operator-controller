@@ -20,7 +20,7 @@ import (
 	"reflect"
 
 	"google.golang.org/protobuf/types/known/structpb"
-	"istio.io/api/operator/v1alpha1"
+	iopv1a1 "istio.io/api/operator/v1alpha1"
 	operatorv1a1 "istio.io/istio/operator/pkg/apis/istio/v1alpha1"
 	"istio.io/istio/pkg/config/labels"
 	"istio.io/istio/pkg/config/mesh"
@@ -61,7 +61,7 @@ func CheckIstioOperator(iop *operatorv1a1.IstioOperator, checkRequiredFields boo
 // CheckIstioOperatorSpec validates the values in the given Installer spec, using the field map DefaultValidations to
 // call the appropriate validation function. checkRequiredFields determines whether missing mandatory fields generate
 // errors.
-func CheckIstioOperatorSpec(is *v1alpha1.IstioOperatorSpec, checkRequiredFields bool) (errs util.Errors) {
+func CheckIstioOperatorSpec(is *iopv1a1.IstioOperatorSpec, checkRequiredFields bool) (errs util.Errors) {
 	if is == nil {
 		return util.Errors{}
 	}
@@ -69,7 +69,7 @@ func CheckIstioOperatorSpec(is *v1alpha1.IstioOperatorSpec, checkRequiredFields 
 	return Validate2(DefaultValidations, is)
 }
 
-func Validate2(validations map[string]ValidatorFunc, iop *v1alpha1.IstioOperatorSpec) (errs util.Errors) {
+func Validate2(validations map[string]ValidatorFunc, iop *iopv1a1.IstioOperatorSpec) (errs util.Errors) {
 	for path, validator := range validations {
 		v, f, _ := tpath.GetFromStructPath(iop, path)
 		if f {
@@ -221,7 +221,7 @@ func validateRevision(_ util.Path, val any) util.Errors {
 }
 
 func validateGatewayName(path util.Path, val any) (errs util.Errors) {
-	v := val.([]*v1alpha1.GatewaySpec)
+	v := val.([]*iopv1a1.GatewaySpec)
 	for _, n := range v {
 		if n == nil {
 			errs = append(errs, util.NewErrs(errors.New("badly formatted gateway configuration")))

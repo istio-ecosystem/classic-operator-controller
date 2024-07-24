@@ -18,7 +18,7 @@ import (
 	"fmt"
 	"testing"
 
-	"istio.io/api/operator/v1alpha1"
+	iopv1a1 "istio.io/api/operator/v1alpha1"
 	"istio.io/istio/pkg/test/util/assert"
 
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/name"
@@ -98,9 +98,9 @@ components:
 	}
 	for _, tt := range cases {
 		t.Run(tt.name, func(t *testing.T) {
-			var iop *v1alpha1.IstioOperatorSpec
+			var iop *iopv1a1.IstioOperatorSpec
 			if tt.values != "" {
-				iop = &v1alpha1.IstioOperatorSpec{}
+				iop = &iopv1a1.IstioOperatorSpec{}
 				if err := util.UnmarshalWithJSONPB(tt.values, iop, true); err != nil {
 					t.Fatal(err)
 				}
@@ -168,9 +168,9 @@ components:
 
 	for _, tt := range cases {
 		t.Run(tt.name, func(t *testing.T) {
-			var iop *v1alpha1.IstioOperatorSpec
+			var iop *iopv1a1.IstioOperatorSpec
 			if tt.iopString != "" {
-				iop = &v1alpha1.IstioOperatorSpec{}
+				iop = &iopv1a1.IstioOperatorSpec{}
 				if err := util.UnmarshalWithJSONPB(tt.iopString, iop, true); err != nil {
 					t.Fatal(err)
 				}

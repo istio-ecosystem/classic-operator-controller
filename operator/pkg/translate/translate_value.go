@@ -19,7 +19,7 @@ import (
 	"sort"
 	"strings"
 
-	"istio.io/api/operator/v1alpha1"
+	iopv1a1 "istio.io/api/operator/v1alpha1"
 	"sigs.k8s.io/yaml"
 
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/metrics"
@@ -158,7 +158,7 @@ func NewReverseTranslator() *ReverseTranslator {
 }
 
 // TranslateFromValueToSpec translates from values.yaml value to IstioOperatorSpec.
-func (t *ReverseTranslator) TranslateFromValueToSpec(values []byte, force bool) (controlPlaneSpec *v1alpha1.IstioOperatorSpec, err error) {
+func (t *ReverseTranslator) TranslateFromValueToSpec(values []byte, force bool) (controlPlaneSpec *iopv1a1.IstioOperatorSpec, err error) {
 	yamlTree := make(map[string]any)
 	err = yaml.Unmarshal(values, &yamlTree)
 	if err != nil {
@@ -175,7 +175,7 @@ func (t *ReverseTranslator) TranslateFromValueToSpec(values []byte, force bool) 
 		return nil, err
 	}
 
-	cpSpec := &v1alpha1.IstioOperatorSpec{}
+	cpSpec := &iopv1a1.IstioOperatorSpec{}
 	err = util.UnmarshalWithJSONPB(string(outputVal), cpSpec, force)
 	if err != nil {
 		return nil, fmt.Errorf("error when unmarshalling into control plane spec %v, \nyaml:\n %s", err, outputVal)

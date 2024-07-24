@@ -18,7 +18,7 @@ import (
 	"fmt"
 
 	"google.golang.org/protobuf/types/known/wrapperspb"
-	"istio.io/api/operator/v1alpha1"
+	iopv1a1 "istio.io/api/operator/v1alpha1"
 
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/name"
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/tpath"
@@ -28,7 +28,7 @@ import (
 // IsComponentEnabledInSpec reports whether the given component is enabled in the given spec.
 // IsComponentEnabledInSpec assumes that controlPlaneSpec has been validated.
 // TODO: remove extra validations when comfort level is high enough.
-func IsComponentEnabledInSpec(componentName name.ComponentName, controlPlaneSpec *v1alpha1.IstioOperatorSpec) (bool, error) {
+func IsComponentEnabledInSpec(componentName name.ComponentName, controlPlaneSpec *iopv1a1.IstioOperatorSpec) (bool, error) {
 	componentNodeI, found, err := tpath.GetFromStructPath(controlPlaneSpec, "Components."+string(componentName)+".Enabled")
 	if err != nil {
 		return false, fmt.Errorf("error in IsComponentEnabledInSpec GetFromStructPath componentEnabled for component=%s: %s",
@@ -39,7 +39,7 @@ func IsComponentEnabledInSpec(componentName name.ComponentName, controlPlaneSpec
 	}
 	componentNode, ok := componentNodeI.(*wrapperspb.BoolValue)
 	if !ok {
-		return false, fmt.Errorf("component %s enabled has bad type %T, expect *v1alpha1.BoolValueForPB", componentName, componentNodeI)
+		return false, fmt.Errorf("component %s enabled has bad type %T, expect *iopv1a1.BoolValueForPB", componentName, componentNodeI)
 	}
 	if componentNode == nil {
 		return false, nil
@@ -91,7 +91,7 @@ func OverlayValuesEnablement(baseYAML, fileOverlayYAML, setOverlayYAML string) (
 }
 
 // GetEnabledComponents get all the enabled components from the given istio operator spec
-func GetEnabledComponents(iopSpec *v1alpha1.IstioOperatorSpec) ([]string, error) {
+func GetEnabledComponents(iopSpec *iopv1a1.IstioOperatorSpec) ([]string, error) {
 	var enabledComponents []string
 	if iopSpec.Components != nil {
 		for _, c := range name.AllCoreComponentNames {

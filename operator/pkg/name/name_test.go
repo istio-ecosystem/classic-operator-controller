@@ -18,7 +18,7 @@ import (
 	"reflect"
 	"testing"
 
-	"istio.io/api/operator/v1alpha1"
+	iopv1a1 "istio.io/api/operator/v1alpha1"
 	"sigs.k8s.io/yaml"
 
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/tpath"
@@ -283,7 +283,7 @@ func TestUserFacingComponentName(t *testing.T) {
 func TestNamespace(t *testing.T) {
 	type args struct {
 		componentName    ComponentName
-		controlPlaneSpec *v1alpha1.IstioOperatorSpec
+		controlPlaneSpec *iopv1a1.IstioOperatorSpec
 	}
 	tests := []struct {
 		name    string
@@ -295,7 +295,7 @@ func TestNamespace(t *testing.T) {
 			name: "DefaultNamespace and componentNamespace are unset",
 			args: args{
 				componentName: CNIComponentName,
-				controlPlaneSpec: &v1alpha1.IstioOperatorSpec{
+				controlPlaneSpec: &iopv1a1.IstioOperatorSpec{
 					Hub: "docker.io",
 				},
 			},
@@ -306,11 +306,11 @@ func TestNamespace(t *testing.T) {
 			name: "DefaultNamespace is set and componentNamespace in empty",
 			args: args{
 				componentName: CNIComponentName,
-				controlPlaneSpec: &v1alpha1.IstioOperatorSpec{
+				controlPlaneSpec: &iopv1a1.IstioOperatorSpec{
 					Hub:       "docker.io",
 					Namespace: "istio-system",
-					Components: &v1alpha1.IstioComponentSetSpec{
-						Cni: &v1alpha1.ComponentSpec{
+					Components: &iopv1a1.IstioComponentSetSpec{
+						Cni: &iopv1a1.ComponentSpec{
 							Namespace: "",
 						},
 					},
@@ -323,11 +323,11 @@ func TestNamespace(t *testing.T) {
 			name: "DefaultNamespace is set and componentNamespace is unset",
 			args: args{
 				componentName: CNIComponentName,
-				controlPlaneSpec: &v1alpha1.IstioOperatorSpec{
+				controlPlaneSpec: &iopv1a1.IstioOperatorSpec{
 					Hub:       "docker.io",
 					Namespace: "istio-system",
-					Components: &v1alpha1.IstioComponentSetSpec{
-						Cni: &v1alpha1.ComponentSpec{},
+					Components: &iopv1a1.IstioComponentSetSpec{
+						Cni: &iopv1a1.ComponentSpec{},
 					},
 				},
 			},
@@ -338,11 +338,11 @@ func TestNamespace(t *testing.T) {
 			name: "DefaultNamespace and componentNamespace are set and not empty",
 			args: args{
 				componentName: CNIComponentName,
-				controlPlaneSpec: &v1alpha1.IstioOperatorSpec{
+				controlPlaneSpec: &iopv1a1.IstioOperatorSpec{
 					Hub:       "docker.io",
 					Namespace: "istio-system",
-					Components: &v1alpha1.IstioComponentSetSpec{
-						Cni: &v1alpha1.ComponentSpec{
+					Components: &iopv1a1.IstioComponentSetSpec{
+						Cni: &iopv1a1.ComponentSpec{
 							Namespace: "istio-test",
 						},
 					},

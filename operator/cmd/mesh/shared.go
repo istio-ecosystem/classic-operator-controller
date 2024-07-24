@@ -23,7 +23,7 @@ import (
 	"time"
 
 	"istio.io/istio/istioctl/pkg/install/k8sversion"
-	"istio.io/istio/operator/pkg/apis/istio/v1alpha1"
+	operatorv1a1 "istio.io/istio/operator/pkg/apis/istio/v1alpha1"
 	"istio.io/istio/pkg/kube"
 	"istio.io/istio/pkg/log"
 	"sigs.k8s.io/controller-runtime/pkg/client"
@@ -119,7 +119,7 @@ type applyOptions struct {
 }
 
 func applyManifest(kubeClient kube.Client, client client.Client, manifestStr string,
-	componentName name.ComponentName, opts *applyOptions, iop *v1alpha1.IstioOperator, l clog.Logger,
+	componentName name.ComponentName, opts *applyOptions, iop *operatorv1a1.IstioOperator, l clog.Logger,
 ) error {
 	// Needed in case we are running a test through this path that doesn't start a new process.
 	cache.FlushObjectCaches()

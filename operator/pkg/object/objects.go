@@ -25,7 +25,7 @@ import (
 	"sort"
 	"strings"
 
-	"istio.io/istio/operator/pkg/apis/istio/v1alpha1"
+	operatorv1a1 "istio.io/istio/operator/pkg/apis/istio/v1alpha1"
 	"istio.io/istio/pkg/log"
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -491,17 +491,17 @@ func KindObjects(objs K8sObjects, kind string) K8sObjects {
 
 // ParseK8SYAMLToIstioOperator parses a IstioOperator CustomResource YAML string and unmarshals in into
 // an IstioOperatorSpec object. It returns the object and an API group/version with it.
-func ParseK8SYAMLToIstioOperator(yml string) (*v1alpha1.IstioOperator, *schema.GroupVersionKind, error) {
+func ParseK8SYAMLToIstioOperator(yml string) (*operatorv1a1.IstioOperator, *schema.GroupVersionKind, error) {
 	o, err := ParseYAMLToK8sObject([]byte(yml))
 	if err != nil {
 		return nil, nil, err
 	}
-	iop := &v1alpha1.IstioOperator{}
+	iop := &operatorv1a1.IstioOperator{}
 	if err := yaml.UnmarshalStrict([]byte(yml), iop); err != nil {
 		return nil, nil, err
 	}
 	gvk := o.GroupVersionKind()
-	v1alpha1.SetNamespace(iop.Spec, o.Namespace)
+	operatorv1a1.SetNamespace(iop.Spec, o.Namespace)
 	return iop, &gvk, nil
 }
 

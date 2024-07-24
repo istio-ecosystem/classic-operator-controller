@@ -21,10 +21,10 @@ import (
 
 	"github.com/fatih/color"
 	"istio.io/api/label"
-	operatprv1alpha1 "istio.io/api/operator/v1alpha1"
+	iopv1a1 "istio.io/api/operator/v1alpha1"
 	"istio.io/istio/istioctl/pkg/clioptions"
 	"istio.io/istio/operator/pkg/apis/istio"
-	"istio.io/istio/operator/pkg/apis/istio/v1alpha1"
+	operatorv1a1 "istio.io/istio/operator/pkg/apis/istio/v1alpha1"
 	"istio.io/istio/pkg/kube"
 	appsv1 "k8s.io/api/apps/v1"
 	v1batch "k8s.io/api/batch/v1"
@@ -59,7 +59,7 @@ type StatusVerifier struct {
 	filenames        []string
 	controlPlaneOpts clioptions.ControlPlaneOptions
 	logger           clog.Logger
-	iop              *v1alpha1.IstioOperator
+	iop              *operatorv1a1.IstioOperator
 	successMarker    string
 	failureMarker    string
 	client           kube.CLIClient
@@ -74,7 +74,7 @@ func WithLogger(l clog.Logger) StatusVerifierOptions {
 	}
 }
 
-func WithIOP(iop *v1alpha1.IstioOperator) StatusVerifierOptions {
+func WithIOP(iop *operatorv1a1.IstioOperator) StatusVerifierOptions {
 	return func(s *StatusVerifier) {
 		s.iop = iop
 	}
@@ -134,7 +134,7 @@ func (v *StatusVerifier) verifyInstallIOPRevision() error {
 		v.controlPlaneOpts.Revision = ""
 	}
 
-	emptyiops := &operatprv1alpha1.IstioOperatorSpec{Profile: "empty", Revision: v.controlPlaneOpts.Revision}
+	emptyiops := &iopv1a1.IstioOperatorSpec{Profile: "empty", Revision: v.controlPlaneOpts.Revision}
 	iop, err := translate.IOPStoIOP(emptyiops, "", "")
 	if err != nil {
 		return err
@@ -219,7 +219,7 @@ func (v *StatusVerifier) verifyInstall() error {
 	return v.reportStatus(crdCount, istioDeploymentCount, generatedDaemonsets, err)
 }
 
-func (v *StatusVerifier) verifyPostInstallIstioOperator(iop *v1alpha1.IstioOperator, filename string) (int, int, int, error) {
+func (v *StatusVerifier) verifyPostInstallIstioOperator(iop *operatorv1a1.IstioOperator, filename string) (int, int, int, error) {
 	t := translate.NewTranslator()
 	ver, err := v.client.GetKubernetesVersion()
 	if err != nil {
@@ -350,8 +350,8 @@ func (v *StatusVerifier) verifyPostInstall(visitor resource.Visitor, filename st
 			if v.manifestsPath != "" {
 				iop.Spec.InstallPackagePath = v.manifestsPath
 			}
-			if v1alpha1.Namespace(iop.Spec) == "" {
-				v1alpha1.SetNamespace(iop.Spec, v.istioNamespace)
+			if operatorv1a1.Namespace(iop.Spec) == "" {
+				operatorv1a1.SetNamespace(iop.Spec, v.istioNamespace)
 			}
 			generatedCrds, generatedDeployments, generatedDaemonSets, err := v.verifyPostInstallIstioOperator(iop, filename)
 			crdCount += generatedCrds
@@ -454,14 +454,14 @@ func fixTimestampRelatedUnmarshalIssues(un *unstructured.Unstructured) {
 }
 
 // Find all IstioOperator in the cluster.
-func AllOperatorsInCluster(client dynamic.Interface) ([]*v1alpha1.IstioOperator, error) {
+func AllOperatorsInCluster(client dynamic.Interface) ([]*operatorv1a1.IstioOperator, error) {
 	ul, err := client.
-		Resource(v1alpha1.IstioOperatorGVR).
+		Resource(operatorv1a1.IstioOperatorGVR).
 		List(context.TODO(), metav1.ListOptions{})
 	if err != nil {
 		return nil, err
 	}
-	retval := make([]*v1alpha1.IstioOperator, 0)
+	retval := make([]*operatorv1a1.IstioOperator, 0)
 	for _, un := range ul.Items {
 		fixTimestampRelatedUnmarshalIssues(&un)
 		by := util.ToYAML(un.Object)

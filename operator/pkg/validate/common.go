@@ -22,7 +22,7 @@ import (
 	"strconv"
 	"strings"
 
-	"istio.io/istio/operator/pkg/apis/istio/v1alpha1"
+	operatorv1a1 "istio.io/istio/operator/pkg/apis/istio/v1alpha1"
 	"istio.io/istio/pkg/log"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
@@ -270,7 +270,7 @@ func anchored(res ...*regexp.Regexp) *regexp.Regexp {
 type ValidatorFunc func(path util.Path, i any) util.Errors
 
 // UnmarshalIOP unmarshals a string containing IstioOperator as YAML.
-func UnmarshalIOP(iopYAML string) (*v1alpha1.IstioOperator, error) {
+func UnmarshalIOP(iopYAML string) (*operatorv1a1.IstioOperator, error) {
 	// Remove creationDate (util.UnmarshalWithJSONPB fails if present)
 	mapIOP := make(map[string]any)
 	if err := yaml.Unmarshal([]byte(iopYAML), &mapIOP); err != nil {
@@ -283,7 +283,7 @@ func UnmarshalIOP(iopYAML string) (*v1alpha1.IstioOperator, error) {
 		un.SetCreationTimestamp(metav1.Time{}) // UnmarshalIstioOperator chokes on these
 		iopYAML = util.ToYAML(un)
 	}
-	iop := &v1alpha1.IstioOperator{}
+	iop := &operatorv1a1.IstioOperator{}
 
 	if err := yaml.UnmarshalStrict([]byte(iopYAML), iop); err != nil {
 		return nil, fmt.Errorf("%s:\n\nYAML:\n%s", err, iopYAML)
@@ -292,7 +292,7 @@ func UnmarshalIOP(iopYAML string) (*v1alpha1.IstioOperator, error) {
 }
 
 // ValidIOP validates the given IstioOperator object.
-func ValidIOP(iop *v1alpha1.IstioOperator) error {
+func ValidIOP(iop *operatorv1a1.IstioOperator) error {
 	errs := CheckIstioOperatorSpec(iop.Spec, false)
 	return errs.ToError()
 }

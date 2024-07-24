@@ -21,7 +21,7 @@ import (
 
 	"github.com/prometheus/prometheus/util/strutil"
 	"istio.io/api/label"
-	iopv1alpha1 "istio.io/istio/operator/pkg/apis/istio/v1alpha1"
+	operatorv1a1 "istio.io/istio/operator/pkg/apis/istio/v1alpha1"
 	"istio.io/istio/pkg/config/constants"
 	"istio.io/istio/pkg/kube"
 	v1 "k8s.io/api/core/v1"
@@ -37,7 +37,7 @@ func GKString(gvk schema.GroupKind) string {
 }
 
 // ValidateIOPCAConfig validates if the IstioOperator CA configs are applicable to the K8s cluster
-func ValidateIOPCAConfig(client kube.Client, iop *iopv1alpha1.IstioOperator) error {
+func ValidateIOPCAConfig(client kube.Client, iop *operatorv1a1.IstioOperator) error {
 	globalI := iop.Spec.Values.AsMap()["global"]
 	global, ok := globalI.(map[string]any)
 	if !ok {

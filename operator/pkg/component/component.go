@@ -22,7 +22,7 @@ package component
 import (
 	"fmt"
 
-	"istio.io/api/operator/v1alpha1"
+	iopv1a1 "istio.io/api/operator/v1alpha1"
 	"istio.io/istio/pkg/log"
 	"istio.io/istio/pkg/util/sets"
 	"k8s.io/apimachinery/pkg/version"
@@ -47,7 +47,7 @@ var scope = log.RegisterScope("installer", "installer")
 // Options defines options for a component.
 type Options struct {
 	// installSpec is the global IstioOperatorSpec.
-	InstallSpec *v1alpha1.IstioOperatorSpec
+	InstallSpec *iopv1a1.IstioOperatorSpec
 	// translator is the translator for this component.
 	Translator *translate.Translator
 	// Namespace is the namespace for this component.
@@ -108,7 +108,7 @@ func (c *IstioComponentBase) Namespace() string {
 func (c *IstioComponentBase) Enabled() bool {
 	if c.CommonComponentFields.ComponentName.IsGateway() {
 		// type assert is guaranteed to work in this context.
-		return c.componentSpec.(*v1alpha1.GatewaySpec).Enabled.GetValue()
+		return c.componentSpec.(*iopv1a1.GatewaySpec).Enabled.GetValue()
 	}
 	return isCoreComponentEnabled(c.CommonComponentFields)
 }
@@ -218,7 +218,7 @@ type IngressComponent struct {
 }
 
 // NewIngressComponent creates a new IngressComponent and returns a pointer to it.
-func NewIngressComponent(resourceName string, index int, spec *v1alpha1.GatewaySpec, opts *Options) *IngressComponent {
+func NewIngressComponent(resourceName string, index int, spec *iopv1a1.GatewaySpec, opts *Options) *IngressComponent {
 	cn := name.IngressComponentName
 	return &IngressComponent{
 		&IstioComponentBase{
@@ -239,7 +239,7 @@ type EgressComponent struct {
 }
 
 // NewEgressComponent creates a new IngressComponent and returns a pointer to it.
-func NewEgressComponent(resourceName string, index int, spec *v1alpha1.GatewaySpec, opts *Options) *EgressComponent {
+func NewEgressComponent(resourceName string, index int, spec *iopv1a1.GatewaySpec, opts *Options) *EgressComponent {
 	cn := name.EgressComponentName
 	return &EgressComponent{
 		&IstioComponentBase{
@@ -330,7 +330,7 @@ func renderManifest(cf *IstioComponentBase) (string, error) {
 	}
 
 	pathToK8sOverlay += "K8S.Overlays"
-	var overlays []*v1alpha1.K8SObjectOverlay
+	var overlays []*iopv1a1.K8SObjectOverlay
 	found, err := tpath.SetFromPath(cf.InstallSpec, pathToK8sOverlay, &overlays)
 	if err != nil {
 		return "", err

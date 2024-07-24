@@ -19,7 +19,7 @@ import (
 	"reflect"
 	"testing"
 
-	"istio.io/api/operator/v1alpha1"
+	iopv1a1 "istio.io/api/operator/v1alpha1"
 
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/component"
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/name"
@@ -30,12 +30,12 @@ import (
 func TestOrderedKeys(t *testing.T) {
 	tests := []struct {
 		desc string
-		in   map[string]*v1alpha1.ExternalComponentSpec
+		in   map[string]*iopv1a1.ExternalComponentSpec
 		want []string
 	}{
 		{
 			desc: "not-ordered",
-			in: map[string]*v1alpha1.ExternalComponentSpec{
+			in: map[string]*iopv1a1.ExternalComponentSpec{
 				"graphql":   nil,
 				"Abacus":    nil,
 				"Astrology": nil,
@@ -62,19 +62,19 @@ func TestOrderedKeys(t *testing.T) {
 
 func TestNewIstioOperator(t *testing.T) {
 	coreComponentOptions := &component.Options{
-		InstallSpec: &v1alpha1.IstioOperatorSpec{},
+		InstallSpec: &iopv1a1.IstioOperatorSpec{},
 		Translator:  &translate.Translator{},
 	}
 	tests := []struct {
 		desc              string
-		inInstallSpec     *v1alpha1.IstioOperatorSpec
+		inInstallSpec     *iopv1a1.IstioOperatorSpec
 		inTranslator      *translate.Translator
 		wantIstioOperator *IstioControlPlane
 		wantErr           error
 	}{
 		{
 			desc:          "core-components",
-			inInstallSpec: &v1alpha1.IstioOperatorSpec{},
+			inInstallSpec: &iopv1a1.IstioOperatorSpec{},
 			inTranslator: &translate.Translator{
 				ComponentMaps: map[name.ComponentName]*translate.ComponentMaps{
 					"Pilot": {
@@ -143,7 +143,7 @@ func TestNewIstioOperator(t *testing.T) {
 
 func TestIstioOperator_RenderManifest(t *testing.T) {
 	coreComponentOptions := &component.Options{
-		InstallSpec: &v1alpha1.IstioOperatorSpec{},
+		InstallSpec: &iopv1a1.IstioOperatorSpec{},
 		Translator:  &translate.Translator{},
 	}
 	tests := []struct {
@@ -168,7 +168,7 @@ func TestIstioOperator_RenderManifest(t *testing.T) {
 						IstioComponentBase: &component.IstioComponentBase{
 							CommonComponentFields: &component.CommonComponentFields{
 								Options: &component.Options{
-									InstallSpec: &v1alpha1.IstioOperatorSpec{},
+									InstallSpec: &iopv1a1.IstioOperatorSpec{},
 									Translator:  &translate.Translator{},
 								},
 								ResourceName:  "test-resource",
@@ -210,7 +210,7 @@ func TestIstioOperator_RenderManifest(t *testing.T) {
 						IstioComponentBase: &component.IstioComponentBase{
 							CommonComponentFields: &component.CommonComponentFields{
 								Options: &component.Options{
-									InstallSpec: &v1alpha1.IstioOperatorSpec{},
+									InstallSpec: &iopv1a1.IstioOperatorSpec{},
 									Translator:  &translate.Translator{},
 								},
 								ResourceName:  "test-resource",

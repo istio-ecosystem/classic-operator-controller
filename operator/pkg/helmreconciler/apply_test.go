@@ -23,8 +23,8 @@ import (
 	"sync"
 	"testing"
 
-	v1alpha12 "istio.io/api/operator/v1alpha1"
-	"istio.io/istio/operator/pkg/apis/istio/v1alpha1"
+	iopv1a1 "istio.io/api/operator/v1alpha1"
+	operatorv1a1 "istio.io/istio/operator/pkg/apis/istio/v1alpha1"
 	kerrors "k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
@@ -113,12 +113,12 @@ func TestHelmReconciler_ApplyObject(t *testing.T) {
 			h := &HelmReconciler{
 				client: cl,
 				opts:   &Options{},
-				iop: &v1alpha1.IstioOperator{
+				iop: &operatorv1a1.IstioOperator{
 					ObjectMeta: metav1.ObjectMeta{
 						Name:      "test-operator",
 						Namespace: "istio-operator-test",
 					},
-					Spec: &v1alpha12.IstioOperatorSpec{},
+					Spec: &iopv1a1.IstioOperatorSpec{},
 				},
 				countLock:     &sync.Mutex{},
 				prunedKindSet: map[schema.GroupKind]struct{}{},

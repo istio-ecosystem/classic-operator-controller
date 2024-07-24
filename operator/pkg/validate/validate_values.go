@@ -18,7 +18,7 @@ import (
 	"reflect"
 
 	"google.golang.org/protobuf/types/known/structpb"
-	"istio.io/istio/operator/pkg/apis/istio/v1alpha1"
+	operatorv1a1 "istio.io/istio/operator/pkg/apis/istio/v1alpha1"
 
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/util"
 )
@@ -42,7 +42,7 @@ func CheckValues(root any) util.Errors {
 	if err != nil {
 		return util.Errors{err}
 	}
-	val := &v1alpha1.Values{}
+	val := &operatorv1a1.Values{}
 	if err := util.UnmarshalWithJSONPB(string(vs), val, false); err != nil {
 		return util.Errors{err}
 	}

@@ -20,10 +20,10 @@ import (
 	"os"
 	"strings"
 
-	"istio.io/api/operator/v1alpha1"
+	iopv1a1 "istio.io/api/operator/v1alpha1"
 	revtag "istio.io/istio/istioctl/pkg/tag"
 	"istio.io/istio/operator/pkg/apis/istio"
-	iopv1alpha1 "istio.io/istio/operator/pkg/apis/istio/v1alpha1"
+	operatorv1a1 "istio.io/istio/operator/pkg/apis/istio/v1alpha1"
 	"istio.io/istio/pkg/config/constants"
 	"istio.io/istio/pkg/kube"
 	"istio.io/istio/pkg/log"
@@ -147,16 +147,16 @@ var (
 		},
 	}
 
-	operatorPredicates = predicate.TypedFuncs[*iopv1alpha1.IstioOperator]{
-		CreateFunc: func(e event.TypedCreateEvent[*iopv1alpha1.IstioOperator]) bool {
+	operatorPredicates = predicate.TypedFuncs[*operatorv1a1.IstioOperator]{
+		CreateFunc: func(e event.TypedCreateEvent[*operatorv1a1.IstioOperator]) bool {
 			metrics.IncrementReconcileRequest("create")
 			return true
 		},
-		DeleteFunc: func(e event.TypedDeleteEvent[*iopv1alpha1.IstioOperator]) bool {
+		DeleteFunc: func(e event.TypedDeleteEvent[*operatorv1a1.IstioOperator]) bool {
 			metrics.IncrementReconcileRequest("delete")
 			return true
 		},
-		UpdateFunc: func(e event.TypedUpdateEvent[*iopv1alpha1.IstioOperator]) bool {
+		UpdateFunc: func(e event.TypedUpdateEvent[*operatorv1a1.IstioOperator]) bool {
 			oldIOP := e.ObjectOld
 			newIOP := e.ObjectNew
 
@@ -215,7 +215,7 @@ func (r *ReconcileIstioOperator) Reconcile(_ context.Context, request reconcile.
 		Namespace: ns,
 	}
 	// declare read-only iop instance to create the reconciler
-	iop := &iopv1alpha1.IstioOperator{}
+	iop := &operatorv1a1.IstioOperator{}
 	if err := r.client.Get(context.TODO(), reqNamespacedName, iop); err != nil {
 		if errors.IsNotFound(err) {
 			// Request object not found, could have been deleted after reconcile request.
@@ -230,7 +230,7 @@ func (r *ReconcileIstioOperator) Reconcile(_ context.Context, request reconcile.
 		return reconcile.Result{}, err
 	}
 	if iop.Spec == nil {
-		iop.Spec = &v1alpha1.IstioOperatorSpec{Profile: name.DefaultProfileName}
+		iop.Spec = &iopv1a1.IstioOperatorSpec{Profile: name.DefaultProfileName}
 	}
 	operatorRevision, _ := os.LookupEnv("REVISION")
 	if operatorRevision != "" && operatorRevision != iop.Spec.Revision {
@@ -249,7 +249,7 @@ func (r *ReconcileIstioOperator) Reconcile(_ context.Context, request reconcile.
 	}
 
 	var err error
-	iopMerged := &iopv1alpha1.IstioOperator{}
+	iopMerged := &operatorv1a1.IstioOperator{}
 	*iopMerged = *iop
 	// get the merged values in iop on top of the defaults for the profile given by iop.profile
 	iopMerged.Spec, err = mergeIOPSWithProfile(iopMerged)
@@ -363,9 +363,9 @@ func (r *ReconcileIstioOperator) Reconcile(_ context.Context, request reconcile.
 	return reconcile.Result{}, err
 }
 
-func processDefaultWebhookAfterReconcile(iop *iopv1alpha1.IstioOperator, client kube.Client, exists bool) error {
+func processDefaultWebhookAfterReconcile(iop *operatorv1a1.IstioOperator, client kube.Client, exists bool) error {
 	var ns string
-	if configuredNamespace := iopv1alpha1.Namespace(iop.Spec); configuredNamespace != "" {
+	if configuredNamespace := operatorv1a1.Namespace(iop.Spec); configuredNamespace != "" {
 		ns = configuredNamespace
 	} else {
 		ns = constants.IstioSystemNamespace
@@ -382,7 +382,7 @@ func processDefaultWebhookAfterReconcile(iop *iopv1alpha1.IstioOperator, client 
 
 // mergeIOPSWithProfile overlays the values in iop on top of the defaults for the profile given by iop.profile and
 // returns the merged result.
-func mergeIOPSWithProfile(iop *iopv1alpha1.IstioOperator) (*v1alpha1.IstioOperatorSpec, error) {
+func mergeIOPSWithProfile(iop *operatorv1a1.IstioOperator) (*iopv1a1.IstioOperatorSpec, error) {
 	profileYAML, err := helm.GetProfileYAML(iop.Spec.InstallPackagePath, iop.Spec.Profile)
 	if err != nil {
 		metrics.CountCRMergeFail(metrics.CannotFetchProfileError)
@@ -464,8 +464,8 @@ func add(mgr manager.Manager, r *ReconcileIstioOperator, options *Options) error
 	// Watch for changes to primary resource IstioOperator
 	err = c.Watch(source.Kind(
 		mgr.GetCache(),
-		&iopv1alpha1.IstioOperator{},
-		&handler.TypedEnqueueRequestForObject[*iopv1alpha1.IstioOperator]{},
+		&operatorv1a1.IstioOperator{},
+		&handler.TypedEnqueueRequestForObject[*operatorv1a1.IstioOperator]{},
 		operatorPredicates,
 	))
 	if err != nil {

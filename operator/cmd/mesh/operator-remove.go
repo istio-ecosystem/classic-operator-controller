@@ -20,9 +20,9 @@ import (
 
 	"github.com/fatih/color"
 	"github.com/spf13/cobra"
-	"istio.io/api/operator/v1alpha1"
+	iopv1a1 "istio.io/api/operator/v1alpha1"
 	"istio.io/istio/istioctl/pkg/cli"
-	iopv1alpha1 "istio.io/istio/operator/pkg/apis/istio/v1alpha1"
+	operatorv1a1 "istio.io/istio/operator/pkg/apis/istio/v1alpha1"
 	"istio.io/istio/pkg/kube"
 
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/helmreconciler"
@@ -122,9 +122,9 @@ func operatorRemove(cmd *cobra.Command, cliClient kube.CLIClient, args *RootArgs
 
 	l.LogAndPrintf("Removing Istio operator...")
 	// Create an empty IOP for the purpose of populating revision. Apply code requires a non-nil IOP.
-	var iop *iopv1alpha1.IstioOperator
+	var iop *operatorv1a1.IstioOperator
 	if orArgs.revision != "" {
-		emptyiops := &v1alpha1.IstioOperatorSpec{Profile: "empty", Revision: orArgs.revision}
+		emptyiops := &iopv1a1.IstioOperatorSpec{Profile: "empty", Revision: orArgs.revision}
 		iop, err = translate.IOPStoIOP(emptyiops, "", "")
 		if err != nil {
 			l.LogAndFatal(err)

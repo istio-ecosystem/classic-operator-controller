@@ -20,8 +20,8 @@ import (
 	"strings"
 
 	"istio.io/api/label"
-	"istio.io/api/operator/v1alpha1"
-	iopv1alpha1 "istio.io/istio/operator/pkg/apis/istio/v1alpha1"
+	iopv1a1 "istio.io/api/operator/v1alpha1"
+	operatorv1a1 "istio.io/istio/operator/pkg/apis/istio/v1alpha1"
 	"istio.io/istio/pkg/config/constants"
 	"istio.io/istio/pkg/config/schema/gvk"
 	"istio.io/istio/pkg/kube"
@@ -104,12 +104,12 @@ func (h *HelmReconciler) Prune(manifests name.ManifestMap, all bool) error {
 // PruneControlPlaneByRevisionWithController is called to remove specific control plane revision
 // during reconciliation process of controller.
 // It returns the install status and any error encountered.
-func (h *HelmReconciler) PruneControlPlaneByRevisionWithController(iopSpec *v1alpha1.IstioOperatorSpec) (*v1alpha1.InstallStatus, error) {
-	ns := iopv1alpha1.Namespace(iopSpec)
+func (h *HelmReconciler) PruneControlPlaneByRevisionWithController(iopSpec *iopv1a1.IstioOperatorSpec) (*iopv1a1.InstallStatus, error) {
+	ns := operatorv1a1.Namespace(iopSpec)
 	if ns == "" {
 		ns = constants.IstioSystemNamespace
 	}
-	errStatus := &v1alpha1.InstallStatus{Status: v1alpha1.InstallStatus_ERROR}
+	errStatus := &iopv1a1.InstallStatus{Status: iopv1a1.InstallStatus_ERROR}
 	enabledComponents, err := translate.GetEnabledComponents(iopSpec)
 	if err != nil {
 		return errStatus,
@@ -146,7 +146,7 @@ func (h *HelmReconciler) PruneControlPlaneByRevisionWithController(iopSpec *v1al
 			if len(pids) != 0 {
 				msg := fmt.Sprintf("there are proxies still pointing to the pruned control plane: %s.",
 					strings.Join(pids, " "))
-				st := &v1alpha1.InstallStatus{Status: v1alpha1.InstallStatus_ACTION_REQUIRED, Message: msg}
+				st := &iopv1a1.InstallStatus{Status: iopv1a1.InstallStatus_ACTION_REQUIRED, Message: msg}
 				return st, nil
 			}
 		}
@@ -162,7 +162,7 @@ func (h *HelmReconciler) PruneControlPlaneByRevisionWithController(iopSpec *v1al
 			return errStatus, err
 		}
 	}
-	return &v1alpha1.InstallStatus{Status: v1alpha1.InstallStatus_HEALTHY}, nil
+	return &iopv1a1.InstallStatus{Status: iopv1a1.InstallStatus_HEALTHY}, nil
 }
 
 func (h *HelmReconciler) pilotExists(cliClient kube.CLIClient, istioNamespace string) (bool, error) {
@@ -284,7 +284,7 @@ func (h *HelmReconciler) GetPrunedResources(revision string, includeClusterResou
 // otherwise the resources would be reconciled back later if there is in-cluster operator deployment.
 // And it is needed to remove the IstioOperator CRD.
 func (h *HelmReconciler) getIstioOperatorCR() *unstructured.UnstructuredList {
-	iopGVR := iopv1alpha1.IstioOperatorGVR
+	iopGVR := operatorv1a1.IstioOperatorGVR
 	objects, err := h.kubeClient.Dynamic().Resource(iopGVR).List(context.TODO(), metav1.ListOptions{})
 	if err != nil {
 		if kerrors.IsNotFound(err) {

@@ -18,7 +18,7 @@ import (
 	"testing"
 
 	"istio.io/istio/operator/pkg/apis/istio"
-	"istio.io/istio/operator/pkg/apis/istio/v1alpha1"
+	operatorv1a1 "istio.io/istio/operator/pkg/apis/istio/v1alpha1"
 	"istio.io/istio/pkg/util/protomarshal"
 	"sigs.k8s.io/yaml"
 
@@ -179,7 +179,7 @@ values:
 
 	for _, tt := range tests {
 		t.Run(tt.desc, func(t *testing.T) {
-			valueStruct := v1alpha1.Values{}
+			valueStruct := operatorv1a1.Values{}
 			err := util.UnmarshalWithJSONPB(tt.valueYAML, &valueStruct, false)
 			if err != nil {
 				t.Fatalf("unmarshal(%s): got error %s", tt.desc, err)

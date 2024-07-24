@@ -22,7 +22,7 @@ import (
 	wrappers "google.golang.org/protobuf/types/known/wrapperspb"
 	meshv1a1 "istio.io/api/mesh/v1alpha1"
 	networkingv1a3 "istio.io/api/networking/v1alpha3"
-	"istio.io/api/operator/v1alpha1"
+	iopv1a1 "istio.io/api/operator/v1alpha1"
 	operatorv1a1 "istio.io/istio/operator/pkg/apis/istio/v1alpha1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/util/strategicpatch"
@@ -57,16 +57,16 @@ type istioComponentSetSpec struct {
 }
 
 type baseComponentSpec struct {
-	K8S *v1alpha1.KubernetesResourcesSpec `json:"k8s" patchStrategy:"merge"`
+	K8S *iopv1a1.KubernetesResourcesSpec `json:"k8s" patchStrategy:"merge"`
 }
 
 type componentSpec struct {
-	K8S *v1alpha1.KubernetesResourcesSpec `json:"k8s" patchStrategy:"merge"`
+	K8S *iopv1a1.KubernetesResourcesSpec `json:"k8s" patchStrategy:"merge"`
 }
 
 type gatewaySpec struct {
-	Label map[string]string                 `json:"label" patchStrategy:"merge"`
-	K8S   *v1alpha1.KubernetesResourcesSpec `json:"k8s" patchStrategy:"merge"`
+	Label map[string]string                `json:"label" patchStrategy:"merge"`
+	K8S   *iopv1a1.KubernetesResourcesSpec `json:"k8s" patchStrategy:"merge"`
 }
 
 type values struct {
@@ -84,9 +84,9 @@ type values struct {
 }
 
 type gatewaysConfig struct {
-	SecurityContext     *v1alpha1.PodSecurityContext `json:"securityContext" patchStrategy:"merge"`
-	IstioEgressgateway  *egressGatewayConfig         `json:"istio-egressgateway" patchStrategy:"merge"`
-	IstioIngressgateway *ingressGatewayConfig        `json:"istio-ingressgateway" patchStrategy:"merge"`
+	SecurityContext     *iopv1a1.PodSecurityContext `json:"securityContext" patchStrategy:"merge"`
+	IstioEgressgateway  *egressGatewayConfig        `json:"istio-egressgateway" patchStrategy:"merge"`
+	IstioIngressgateway *ingressGatewayConfig       `json:"istio-ingressgateway" patchStrategy:"merge"`
 }
 
 // Configuration for an ingress gateway.

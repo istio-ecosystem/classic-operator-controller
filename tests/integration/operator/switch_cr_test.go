@@ -28,8 +28,8 @@ import (
 
 	"github.com/hashicorp/go-multierror"
 	"istio.io/api/label"
-	api "istio.io/api/operator/v1alpha1"
-	iopv1alpha1 "istio.io/istio/operator/pkg/apis/istio/v1alpha1"
+	iopv1a1 "istio.io/api/operator/v1alpha1"
+	operatorv1a1 "istio.io/istio/operator/pkg/apis/istio/v1alpha1"
 	"istio.io/istio/pkg/config/schema/gvr"
 	istioKube "istio.io/istio/pkg/kube"
 	"istio.io/istio/pkg/log"
@@ -227,7 +227,7 @@ func cleanupIstioResources(t framework.TestContext, cs cluster.Cluster, istioCtl
 // checkInstallStatus check the status of IstioOperator CR from the cluster
 func checkInstallStatus(cs istioKube.CLIClient, revision string) error {
 	scopes.Framework.Infof("checking IstioOperator CR status")
-	gvr := iopv1alpha1.IstioOperatorGVR
+	gvr := operatorv1a1.IstioOperatorGVR
 
 	var unhealthyCN []string
 	retryFunc := func() error {
@@ -252,18 +252,18 @@ func checkInstallStatus(cs istioKube.CLIClient, revision string) error {
 		if err != nil {
 			return fmt.Errorf("failed to marshal istioOperator status: %v", err)
 		}
-		status := &api.InstallStatus{}
+		status := &iopv1a1.InstallStatus{}
 		if err := protomarshal.UnmarshalAllowUnknown(iopStatusString, status); err != nil {
 			return fmt.Errorf("failed to unmarshal istioOperator status: %v", err)
 		}
 		errs := util.Errors{}
 		unhealthyCN = []string{}
-		if status.Status != api.InstallStatus_HEALTHY {
+		if status.Status != iopv1a1.InstallStatus_HEALTHY {
 			errs = util.AppendErr(errs, fmt.Errorf("got IstioOperator status: %v", status.Status))
 		}
 
 		for cn, cnstatus := range status.ComponentStatus {
-			if cnstatus.Status != api.InstallStatus_HEALTHY {
+			if cnstatus.Status != iopv1a1.InstallStatus_HEALTHY {
 				unhealthyCN = append(unhealthyCN, cn)
 				errs = util.AppendErr(errs, fmt.Errorf("got component: %s status: %v", cn, cnstatus.Status))
 			}
@@ -281,7 +281,7 @@ func checkInstallStatus(cs istioKube.CLIClient, revision string) error {
 func cleanupInClusterCRs(t framework.TestContext, cs cluster.Cluster) {
 	// clean up hanging installed-state CR from previous tests, failing for errors is not needed here.
 	scopes.Framework.Info("cleaning up in-cluster CRs")
-	gvr := iopv1alpha1.IstioOperatorGVR
+	gvr := operatorv1a1.IstioOperatorGVR
 	crList, err := cs.Dynamic().Resource(gvr).Namespace(IstioNamespace).List(context.TODO(),
 		metav1.ListOptions{})
 	if err == nil {

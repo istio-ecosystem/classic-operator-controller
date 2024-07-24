@@ -31,6 +31,7 @@ linters:
     - stylecheck
     - typecheck
     - unconvert
+    - importas
     - unparam
     - unused
     - gci
@@ -259,6 +260,16 @@ linters-settings:
       - G401
       - G402
       - G404
+  importas:
+    # Do not allow unaliased imports of aliased packages.
+    no-unaliased: true
+    # Do not allow non-required aliases.
+    no-extra-aliases: false
+    alias:
+      - pkg: istio.io/istio/operator/pkg/apis/istio/v1alpha1
+        alias: operatorv1a1
+      - pkg: istio.io/api/operator/v1alpha1
+        alias: iopv1a1
 issues:
   # List of regexps of issue texts to exclude, empty list by default.
   # But independently from this option we use default exclude patterns,

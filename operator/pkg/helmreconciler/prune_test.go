@@ -20,7 +20,7 @@ import (
 	"testing"
 
 	"istio.io/api/label"
-	"istio.io/istio/operator/pkg/apis/istio/v1alpha1"
+	operatorv1a1 "istio.io/istio/operator/pkg/apis/istio/v1alpha1"
 	"istio.io/istio/pkg/kube"
 	"istio.io/istio/pkg/test/util/assert"
 	v1 "k8s.io/api/core/v1"
@@ -67,7 +67,7 @@ func TestHelmReconciler_GetPrunedResources(t *testing.T) {
 		// init two custom gateways with revision
 		gateways := [][]byte{iopTestGwData1, iopTestGwData2}
 		for i, data := range gateways {
-			iop := &v1alpha1.IstioOperator{}
+			iop := &operatorv1a1.IstioOperator{}
 			err := yaml.UnmarshalStrict(data, iop)
 			assert.NoError(t, err)
 			h := &HelmReconciler{
@@ -112,7 +112,7 @@ func TestHelmReconciler_GetPrunedResources(t *testing.T) {
 func TestPilotExist(t *testing.T) {
 	t.Run("exist", func(t *testing.T) {
 		cl := fake.NewClientBuilder().WithInterceptorFuncs(interceptorFunc).Build()
-		iop := &v1alpha1.IstioOperator{}
+		iop := &operatorv1a1.IstioOperator{}
 		h := &HelmReconciler{
 			client:     cl,
 			kubeClient: kube.NewFakeClientWithVersion("24"),
@@ -141,7 +141,7 @@ func TestPilotExist(t *testing.T) {
 
 	t.Run("non-exist", func(t *testing.T) {
 		cl := fake.NewClientBuilder().WithInterceptorFuncs(interceptorFunc).Build()
-		iop := &v1alpha1.IstioOperator{}
+		iop := &operatorv1a1.IstioOperator{}
 		kc := kube.NewFakeClientWithVersion("24")
 		h := &HelmReconciler{
 			client:     cl,

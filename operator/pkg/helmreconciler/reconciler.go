@@ -23,10 +23,10 @@ import (
 	"time"
 
 	"istio.io/api/label"
-	"istio.io/api/operator/v1alpha1"
+	iopv1a1 "istio.io/api/operator/v1alpha1"
 	revtag "istio.io/istio/istioctl/pkg/tag"
 	"istio.io/istio/istioctl/pkg/util/formatting"
-	istioV1Alpha1 "istio.io/istio/operator/pkg/apis/istio/v1alpha1"
+	operatorv1a1 "istio.io/istio/operator/pkg/apis/istio/v1alpha1"
 	"istio.io/istio/pkg/config"
 	"istio.io/istio/pkg/config/analysis"
 	"istio.io/istio/pkg/config/analysis/analyzers/webhook"
@@ -59,7 +59,7 @@ import (
 type HelmReconciler struct {
 	client     client.Client
 	kubeClient kube.Client
-	iop        *istioV1Alpha1.IstioOperator
+	iop        *operatorv1a1.IstioOperator
 	opts       *Options
 	// copy of the last generated manifests.
 	manifests name.ManifestMap
@@ -97,7 +97,7 @@ var defaultOptions = &Options{
 }
 
 // NewHelmReconciler creates a HelmReconciler and returns a ptr to it
-func NewHelmReconciler(client client.Client, kubeClient kube.Client, iop *istioV1Alpha1.IstioOperator, opts *Options) (*HelmReconciler, error) {
+func NewHelmReconciler(client client.Client, kubeClient kube.Client, iop *operatorv1a1.IstioOperator, opts *Options) (*HelmReconciler, error) {
 	if opts == nil {
 		opts = defaultOptions
 	}
@@ -120,8 +120,8 @@ func NewHelmReconciler(client client.Client, kubeClient kube.Client, iop *istioV
 	}
 	if iop == nil {
 		// allows controller code to function for cases where IOP is not provided (e.g. operator remove).
-		iop = &istioV1Alpha1.IstioOperator{}
-		iop.Spec = &v1alpha1.IstioOperatorSpec{}
+		iop = &operatorv1a1.IstioOperator{}
+		iop.Spec = &iopv1a1.IstioOperatorSpec{}
 	}
 	return &HelmReconciler{
 		client:           client,
@@ -146,8 +146,8 @@ func initDependencies() map[name.ComponentName]chan struct{} {
 }
 
 // Reconcile reconciles the associated resources.
-func (h *HelmReconciler) Reconcile() (*v1alpha1.InstallStatus, error) {
-	if err := util.CreateNamespace(h.kubeClient.Kube(), istioV1Alpha1.Namespace(h.iop.Spec), h.networkName(), h.opts.DryRun); err != nil {
+func (h *HelmReconciler) Reconcile() (*iopv1a1.InstallStatus, error) {
+	if err := util.CreateNamespace(h.kubeClient.Kube(), operatorv1a1.Namespace(h.iop.Spec), h.networkName(), h.opts.DryRun); err != nil {
 		return nil, err
 	}
 	manifestMap, err := h.RenderCharts()
@@ -176,8 +176,8 @@ func (h *HelmReconciler) Reconcile() (*v1alpha1.InstallStatus, error) {
 
 // processRecursive processes the given manifests in an order of dependencies defined in h. Dependencies are a tree,
 // where a child must wait for the parent to complete before starting.
-func (h *HelmReconciler) processRecursive(manifests name.ManifestMap) *v1alpha1.InstallStatus {
-	componentStatus := make(map[string]*v1alpha1.InstallStatus_VersionStatus)
+func (h *HelmReconciler) processRecursive(manifests name.ManifestMap) *iopv1a1.InstallStatus {
+	componentStatus := make(map[string]*iopv1a1.InstallStatus_VersionStatus)
 
 	// mu protects the shared InstallStatus componentStatus across goroutines
 	var mu sync.Mutex
@@ -199,10 +199,10 @@ func (h *HelmReconciler) processRecursive(manifests name.ManifestMap) *v1alpha1.
 			// Possible paths for status are RECONCILING -> {NONE, ERROR, HEALTHY}. NONE means component has no resources.
 			// In NONE case, the component is not shown in overall status.
 			mu.Lock()
-			setStatus(componentStatus, c, v1alpha1.InstallStatus_RECONCILING, nil)
+			setStatus(componentStatus, c, iopv1a1.InstallStatus_RECONCILING, nil)
 			mu.Unlock()
 
-			status := v1alpha1.InstallStatus_NONE
+			status := iopv1a1.InstallStatus_NONE
 			var err error
 			if len(ms) != 0 {
 				m := name.Manifest{
@@ -211,9 +211,9 @@ func (h *HelmReconciler) processRecursive(manifests name.ManifestMap) *v1alpha1.
 				}
 				appliedResult, err = h.ApplyManifest(m)
 				if err != nil {
-					status = v1alpha1.InstallStatus_ERROR
+					status = iopv1a1.InstallStatus_ERROR
 				} else if appliedResult.Succeed() {
-					status = v1alpha1.InstallStatus_HEALTHY
+					status = iopv1a1.InstallStatus_HEALTHY
 				}
 			}
 
@@ -232,7 +232,7 @@ func (h *HelmReconciler) processRecursive(manifests name.ManifestMap) *v1alpha1.
 
 	metrics.ReportOwnedResourceCounts()
 
-	out := &v1alpha1.InstallStatus{
+	out := &iopv1a1.InstallStatus{
 		Status:          overallStatus(componentStatus),
 		ComponentStatus: componentStatus,
 	}
@@ -260,7 +260,7 @@ func (h *HelmReconciler) Delete() error {
 	}
 
 	// check status here because terminating iop's status can't be updated.
-	if status.Status == v1alpha1.InstallStatus_ACTION_REQUIRED {
+	if status.Status == iopv1a1.InstallStatus_ACTION_REQUIRED {
 		return fmt.Errorf("action is required before deleting the iop instance: %s", status.Message)
 	}
 
@@ -271,11 +271,11 @@ func (h *HelmReconciler) Delete() error {
 	return nil
 }
 
-func (h *HelmReconciler) DeleteIOPInClusterIfExists(iop *istioV1Alpha1.IstioOperator) {
+func (h *HelmReconciler) DeleteIOPInClusterIfExists(iop *operatorv1a1.IstioOperator) {
 	// Delete the previous IstioOperator CR if it exists.
 	objectKey := client.ObjectKeyFromObject(iop)
 	receiver := &unstructured.Unstructured{}
-	receiver.SetGroupVersionKind(istioV1Alpha1.IstioOperatorGVK)
+	receiver.SetGroupVersionKind(operatorv1a1.IstioOperatorGVK)
 	if err := h.client.Get(context.TODO(), objectKey, receiver); err == nil {
 		_ = h.client.Delete(context.TODO(), receiver)
 	}
@@ -283,7 +283,7 @@ func (h *HelmReconciler) DeleteIOPInClusterIfExists(iop *istioV1Alpha1.IstioOper
 
 // SetStatusBegin updates the status field on the IstioOperator instance before reconciling.
 func (h *HelmReconciler) SetStatusBegin() error {
-	isop := &istioV1Alpha1.IstioOperator{}
+	isop := &operatorv1a1.IstioOperator{}
 	if err := h.getClient().Get(context.TODO(), config.NamespacedName(h.iop), isop); err != nil {
 		if runtime.IsNotRegisteredError(err) {
 			// CRD not yet installed in cluster, nothing to update.
@@ -292,22 +292,22 @@ func (h *HelmReconciler) SetStatusBegin() error {
 		return fmt.Errorf("failed to get IstioOperator before updating status due to %v", err)
 	}
 	if isop.Status == nil {
-		isop.Status = &v1alpha1.InstallStatus{Status: v1alpha1.InstallStatus_RECONCILING}
+		isop.Status = &iopv1a1.InstallStatus{Status: iopv1a1.InstallStatus_RECONCILING}
 	} else {
 		cs := isop.Status.ComponentStatus
 		for cn := range cs {
-			cs[cn] = &v1alpha1.InstallStatus_VersionStatus{
-				Status: v1alpha1.InstallStatus_RECONCILING,
+			cs[cn] = &iopv1a1.InstallStatus_VersionStatus{
+				Status: iopv1a1.InstallStatus_RECONCILING,
 			}
 		}
-		isop.Status.Status = v1alpha1.InstallStatus_RECONCILING
+		isop.Status.Status = iopv1a1.InstallStatus_RECONCILING
 	}
 	return h.getClient().Status().Update(context.TODO(), isop)
 }
 
 // SetStatusComplete updates the status field on the IstioOperator instance based on the resulting err parameter.
-func (h *HelmReconciler) SetStatusComplete(status *v1alpha1.InstallStatus) error {
-	iop := &istioV1Alpha1.IstioOperator{}
+func (h *HelmReconciler) SetStatusComplete(status *iopv1a1.InstallStatus) error {
+	iop := &operatorv1a1.IstioOperator{}
 	if err := h.getClient().Get(context.TODO(), config.NamespacedName(h.iop), iop); err != nil {
 		return fmt.Errorf("failed to get IstioOperator before updating status due to %v", err)
 	}
@@ -318,14 +318,14 @@ func (h *HelmReconciler) SetStatusComplete(status *v1alpha1.InstallStatus) error
 // setStatus sets the status for the component with the given name, which is a key in the given map.
 // If the status is InstallStatus_NONE, the component name is deleted from the map.
 // Otherwise, if the map key/value is missing, one is created.
-func setStatus(s map[string]*v1alpha1.InstallStatus_VersionStatus, componentName name.ComponentName, status v1alpha1.InstallStatus_Status, err error) {
+func setStatus(s map[string]*iopv1a1.InstallStatus_VersionStatus, componentName name.ComponentName, status iopv1a1.InstallStatus_Status, err error) {
 	cn := string(componentName)
-	if status == v1alpha1.InstallStatus_NONE {
+	if status == iopv1a1.InstallStatus_NONE {
 		delete(s, cn)
 		return
 	}
 	if _, ok := s[cn]; !ok {
-		s[cn] = &v1alpha1.InstallStatus_VersionStatus{}
+		s[cn] = &iopv1a1.InstallStatus_VersionStatus{}
 	}
 	s[cn].Status = status
 	if err != nil {
@@ -339,17 +339,17 @@ func setStatus(s map[string]*v1alpha1.InstallStatus_VersionStatus, componentName
 // - If one or more components are UPDATING and others are HEALTHY, overall status is UPDATING.
 // - If components are a mix of RECONCILING, UPDATING and HEALTHY, overall status is UPDATING.
 // - If any component is in ERROR state, overall status is ERROR.
-func overallStatus(componentStatus map[string]*v1alpha1.InstallStatus_VersionStatus) v1alpha1.InstallStatus_Status {
-	ret := v1alpha1.InstallStatus_HEALTHY
+func overallStatus(componentStatus map[string]*iopv1a1.InstallStatus_VersionStatus) iopv1a1.InstallStatus_Status {
+	ret := iopv1a1.InstallStatus_HEALTHY
 	for _, cs := range componentStatus {
-		if cs.Status == v1alpha1.InstallStatus_ERROR {
-			ret = v1alpha1.InstallStatus_ERROR
+		if cs.Status == iopv1a1.InstallStatus_ERROR {
+			ret = iopv1a1.InstallStatus_ERROR
 			break
-		} else if cs.Status == v1alpha1.InstallStatus_UPDATING {
-			ret = v1alpha1.InstallStatus_UPDATING
+		} else if cs.Status == iopv1a1.InstallStatus_UPDATING {
+			ret = iopv1a1.InstallStatus_UPDATING
 			break
-		} else if cs.Status == v1alpha1.InstallStatus_RECONCILING {
-			ret = v1alpha1.InstallStatus_RECONCILING
+		} else if cs.Status == iopv1a1.InstallStatus_RECONCILING {
+			ret = iopv1a1.InstallStatus_RECONCILING
 			break
 		}
 	}
@@ -521,7 +521,7 @@ func (h *HelmReconciler) analyzeWebhooks(whs []string) error {
 	sa := local.NewSourceAnalyzer(analysis.Combine("webhook", &webhook.Analyzer{
 		SkipServiceCheck:             true,
 		SkipDefaultRevisionedWebhook: DetectIfTagWebhookIsNeeded(h.iop, exists),
-	}), resource.Namespace(h.iop.Spec.GetNamespace()), resource.Namespace(istioV1Alpha1.Namespace(h.iop.Spec)), nil)
+	}), resource.Namespace(h.iop.Spec.GetNamespace()), resource.Namespace(operatorv1a1.Namespace(h.iop.Spec)), nil)
 
 	// Add in-cluster webhooks
 	objects := &unstructured.UnstructuredList{}
@@ -600,14 +600,14 @@ type ProcessDefaultWebhookOptions struct {
 	DryRun    bool
 }
 
-func DetectIfTagWebhookIsNeeded(iop *istioV1Alpha1.IstioOperator, exists bool) bool {
+func DetectIfTagWebhookIsNeeded(iop *operatorv1a1.IstioOperator, exists bool) bool {
 	rev := iop.Spec.Revision
 	isDefaultInstallation := rev == "" && iop.Spec.Components.Pilot != nil && iop.Spec.Components.Pilot.Enabled.Value
 	operatorManageWebhooks := operatorManageWebhooks(iop)
 	return !operatorManageWebhooks && (!exists || isDefaultInstallation)
 }
 
-func ProcessDefaultWebhook(client kube.Client, iop *istioV1Alpha1.IstioOperator, exists bool, opt *ProcessDefaultWebhookOptions) (processed bool, err error) {
+func ProcessDefaultWebhook(client kube.Client, iop *operatorv1a1.IstioOperator, exists bool, opt *ProcessDefaultWebhookOptions) (processed bool, err error) {
 	// Detect whether previous installation exists prior to performing the installation.
 	if !DetectIfTagWebhookIsNeeded(iop, exists) {
 		return false, nil
@@ -673,7 +673,7 @@ func applyManifests(kubeClient kube.Client, manifests string) error {
 }
 
 // operatorManageWebhooks returns .Values.global.operatorManageWebhooks from the Istio Operator.
-func operatorManageWebhooks(iop *istioV1Alpha1.IstioOperator) bool {
+func operatorManageWebhooks(iop *operatorv1a1.IstioOperator) bool {
 	if iop.Spec.GetValues() == nil {
 		return false
 	}
@@ -691,7 +691,7 @@ func operatorManageWebhooks(iop *istioV1Alpha1.IstioOperator) bool {
 
 // validateEnableNamespacesByDefault checks whether there is .Values.sidecarInjectorWebhook.enableNamespacesByDefault set in the Istio Operator.
 // Should be used in installer when deciding whether to enable an automatic sidecar injection in all namespaces.
-func validateEnableNamespacesByDefault(iop *istioV1Alpha1.IstioOperator) bool {
+func validateEnableNamespacesByDefault(iop *operatorv1a1.IstioOperator) bool {
 	if iop == nil || iop.Spec == nil || iop.Spec.Values == nil {
 		return false
 	}

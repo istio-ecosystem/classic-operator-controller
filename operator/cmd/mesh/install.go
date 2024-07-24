@@ -25,7 +25,7 @@ import (
 
 	"github.com/fatih/color"
 	"github.com/spf13/cobra"
-	"istio.io/api/operator/v1alpha1"
+	iopv1a1 "istio.io/api/operator/v1alpha1"
 	"istio.io/istio/istioctl/pkg/cli"
 	"istio.io/istio/istioctl/pkg/clioptions"
 	revtag "istio.io/istio/istioctl/pkg/tag"
@@ -263,7 +263,7 @@ func InstallManifests(iop *operatorv1a1.IstioOperator, force bool, dryRun bool, 
 	if err != nil {
 		return fmt.Errorf("errors occurred during operation: %v", err)
 	}
-	if status.Status != v1alpha1.InstallStatus_HEALTHY {
+	if status.Status != iopv1a1.InstallStatus_HEALTHY {
 		return fmt.Errorf("errors occurred during operation")
 	}
 
