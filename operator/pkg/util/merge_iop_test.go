@@ -21,31 +21,44 @@ import (
 
 	meshconfig "istio.io/api/mesh/v1alpha1"
 	iopv1a1 "istio.io/api/operator/v1alpha1"
+	"istio.io/istio/manifests"
 	operatorv1a1 "istio.io/istio/operator/pkg/apis/istio/v1alpha1"
 	"istio.io/istio/pkg/config/mesh"
-	"istio.io/istio/pkg/test/env"
 	"istio.io/istio/pkg/util/protomarshal"
 	"sigs.k8s.io/yaml"
 )
 
 func TestOverlayIOP(t *testing.T) {
 	cases := []struct {
-		path string
+		isManifest bool
+		path       string
 	}{
 		{
-			filepath.Join(env.IstioSrc, "manifests/profiles/default.yaml"),
+			true,
+			"profiles/default.yaml",
 		},
 		{
-			filepath.Join(env.IstioSrc, "manifests/profiles/demo.yaml"),
+			true,
+			"profiles/demo.yaml",
 		},
 		{
+			false,
 			filepath.Join("testdata", "overlay-iop.yaml"),
 		},
 	}
 
 	for _, tc := range cases {
 		t.Run(tc.path, func(t *testing.T) {
-			b, err := os.ReadFile(tc.path)
+			var (
+				b   []byte
+				err error
+			)
+			if tc.isManifest {
+				b, err = manifests.FS.ReadFile(tc.path)
+			} else {
+				b, err = os.ReadFile(tc.path)
+			}
+
 			if err != nil {
 				t.Fatal(err)
 			}

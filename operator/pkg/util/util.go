@@ -16,7 +16,9 @@ package util
 
 import (
 	"bytes"
+	"embed"
 	"fmt"
+	"io/fs"
 	"os"
 	"path/filepath"
 	"strconv"
@@ -83,6 +85,28 @@ func FindFiles(path string, filter FileFilter) ([]string, error) {
 	} else {
 		fileList = append(fileList, path)
 	}
+	return fileList, nil
+}
+
+func FindFilesFromFS(f embed.FS, root string, filter FileFilter) ([]string, error) {
+	var fileList []string
+	err := fs.WalkDir(f, root, func(path string, d fs.DirEntry, err error) error {
+		if err != nil {
+			return err
+		}
+
+		if d.IsDir() || !filter(path) {
+			return nil
+		}
+
+		fileList = append(fileList, path)
+
+		return nil
+	})
+	if err != nil {
+		return nil, err
+	}
+
 	return fileList, nil
 }
 

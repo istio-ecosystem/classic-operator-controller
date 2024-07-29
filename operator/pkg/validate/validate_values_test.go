@@ -16,23 +16,17 @@ package validate
 
 import (
 	"fmt"
-	"os"
+	"io/fs"
 	"path/filepath"
 	"testing"
 
-	"istio.io/istio/pkg/test/env"
+	"istio.io/istio/manifests"
 	"sigs.k8s.io/yaml"
 
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/helm"
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/object"
 	"github.com/istio-ecosystem/classic-operator-controller/operator/pkg/util"
 )
-
-var repoRootDir string
-
-func init() {
-	repoRootDir = env.IstioSrc
-}
 
 func TestValidateValues(t *testing.T) {
 	tests := []struct {
@@ -186,7 +180,7 @@ func TestValidateValuesFromProfile(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.profile, func(t *testing.T) {
-			pf, err := helm.ReadProfileYAML(tt.profile, filepath.Join(env.IstioSrc, "manifests"))
+			pf, err := helm.ReadProfileYAML(tt.profile, "")
 			if err != nil {
 				t.Fatalf("fail to read profile: %s", tt.profile)
 			}
@@ -205,17 +199,15 @@ func TestValidateValuesFromProfile(t *testing.T) {
 func TestValidateValuesFromValuesYAMLs(t *testing.T) {
 	valuesYAML := ""
 	var allFiles []string
-	manifestDir := filepath.Join(repoRootDir, "manifests/charts")
 	for _, sd := range []string{"base", "gateways", "istio-cni", "istio-control"} {
-		dir := filepath.Join(manifestDir, sd)
-		files, err := util.FindFiles(dir, yamlFileFilter)
+		files, err := util.FindFilesFromFS(manifests.FS, "charts/"+sd, yamlFileFilter)
 		if err != nil {
 			t.Fatalf(err.Error())
 		}
 		allFiles = append(allFiles, files...)
 	}
 	for _, f := range allFiles {
-		b, err := os.ReadFile(f)
+		b, err := fs.ReadFile(manifests.FS, f)
 		if err != nil {
 			t.Fatal(err.Error())
 		}
