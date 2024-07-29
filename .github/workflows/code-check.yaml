@@ -1,0 +1,42 @@
+name: Code Check
+
+on:
+  push:
+    branches:
+    - "master"
+    # paths:
+    # - 'k8s/kind/**'
+
+permissions:
+  contents: read
+
+jobs:
+  lint:
+    name: lint
+    runs-on: ubuntu-latest
+    steps:
+      # enable modules that needed by Istio Dual Stack
+      - run: make lint
+
+  test:
+    name: test
+    runs-on: ubuntu-latest
+    needs: lint
+    steps:
+      - run: make test
+
+  build:
+    name: build
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - run: make build
+
+  docker:
+    name: docker
+    runs-on: ubuntu-latest
+    needs: build
+    env:
+      HUB: ghcr.io/istio-ecosystem
+    steps:
+      - run: make docker
