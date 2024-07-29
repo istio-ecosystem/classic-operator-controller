@@ -4,37 +4,30 @@ on:
   push:
     branches:
     - "main"
+  pull_request:
+    branches:
+      - "main"
 
 permissions:
   contents: read
 
 jobs:
-  lint:
+  build-check:
     name: lint
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332  # v4.1.7
       # enable modules that needed by Istio Dual Stack
       - run: make lint
-
-  test:
-    name: test
-    runs-on: ubuntu-latest
-    needs: lint
-    steps:
       - run: make test
-
-  build:
-    name: build
-    runs-on: ubuntu-latest
-    needs: test
-    steps:
       - run: make build
 
   docker:
     name: docker
     runs-on: ubuntu-latest
-    needs: build
+    needs: build-check
     env:
       HUB: ghcr.io/istio-ecosystem
     steps:
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332  # v4.1.7
       - run: make docker
