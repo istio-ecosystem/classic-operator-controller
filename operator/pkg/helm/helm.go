@@ -230,7 +230,7 @@ func GetProfileYAML(installPackagePath, profileOrPath string) (string, error) {
 	}
 	profiles, err := readProfiles(installPackagePath)
 	if err != nil {
-		return "", fmt.Errorf("failed to read profiles: %v", err)
+		return "", fmt.Errorf("failed to read profiles from %s: %v", installPackagePath, err)
 	}
 	// If charts are a file path and profile is a name like default, transform it to the file path.
 	if profiles[profileOrPath] && installPackagePath != "" {

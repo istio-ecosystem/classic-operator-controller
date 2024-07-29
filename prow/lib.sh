@@ -115,31 +115,18 @@ function build_images() {
   SELECT_TEST="${1}"
 
   # Build just the images needed for tests
-  targets="docker.pilot docker.proxyv2 "
+  targets="docker.operator "
 
-  # use ubuntu:jammy to test vms by default
-  nonDistrolessTargets="docker.app docker.app_sidecar_ubuntu_noble docker.ext-authz "
-  if [[ "${JOB_TYPE:-presubmit}" == "postsubmit" ]]; then
-    # We run tests across all VM types only in postsubmit
-    nonDistrolessTargets+="docker.app_sidecar_ubuntu_bionic docker.app_sidecar_debian_12 docker.app_sidecar_rockylinux_9 "
-  fi
-  if [[ "${SELECT_TEST}" == "test.integration.operator.kube" || "${SELECT_TEST}" == "test.integration.kube" || "${JOB_TYPE:-postsubmit}" == "postsubmit" ]]; then
-    targets+="docker.operator "
-  fi
-  if [[ "${SELECT_TEST}" == "test.integration.ambient.kube" || "${SELECT_TEST}" == "test.integration.kube"  || "${SELECT_TEST}" == "test.integration.helm.kube" || "${JOB_TYPE:-postsubmit}" == "postsubmit" ]]; then
-    targets+="docker.ztunnel "
-  fi
-  targets+="docker.install-cni "
   # Integration tests are always running on local architecture (no cross compiling), so find out what that is.
   arch="linux/amd64"
-  if [[ "$(uname -m)" == "aarch64" ]]; then
+  localArch="$(uname -m)"
+  if [[ ${localArch} == "aarch64" || ${localArch} == "arm64"  ]]; then
       arch="linux/arm64"
   fi
   if [[ "${VARIANT:-default}" == "distroless" ]]; then
     DOCKER_ARCHITECTURES="${arch}" DOCKER_BUILD_VARIANTS="distroless" DOCKER_TARGETS="${targets}" make dockerx.pushx
-    DOCKER_ARCHITECTURES="${arch}" DOCKER_BUILD_VARIANTS="default" DOCKER_TARGETS="${nonDistrolessTargets}" make dockerx.pushx
   else
-   DOCKER_ARCHITECTURES="${arch}"  DOCKER_BUILD_VARIANTS="${VARIANT:-default}" DOCKER_TARGETS="${targets} ${nonDistrolessTargets}" make dockerx.pushx
+   DOCKER_ARCHITECTURES="${arch}"  DOCKER_BUILD_VARIANTS="${VARIANT:-default}" DOCKER_TARGETS="${targets}" make dockerx.pushx
   fi
 }
 

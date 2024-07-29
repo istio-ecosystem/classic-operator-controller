@@ -67,7 +67,6 @@ func TestReconcileDelete(t *testing.T) {
 					"operator", "init",
 					"--hub=" + s.Image.Hub,
 					"--tag=" + tag,
-					"--manifests=" + ManifestPath,
 				}
 				// install istio with default config for the first time by running operator init command
 				istioCtl.InvokeOrFail(t, initCmd)
@@ -138,7 +137,6 @@ func TestReconcileDelete(t *testing.T) {
 					"operator", "init",
 					"--hub=" + s.Image.Hub,
 					"--tag=" + tag,
-					"--manifests=" + ManifestPath,
 				}
 				// install istio with default config for the first time by running operator init command
 				istioCtl.InvokeOrFail(t, initCmd)
@@ -215,8 +213,8 @@ spec:
       imagePullPolicy: %s
 `
 	s := ctx.Settings()
-	overlayYAML := fmt.Sprintf(metadataYAML, revName("test-istiocontrolplane", revision), profileName, ManifestPathContainer,
-		s.Image.Hub, s.Image.Tag, s.Image.Variant, s.Image.PullPolicy)
+	overlayYAML := fmt.Sprintf(metadataYAML, revName("test-istiocontrolplane", revision), profileName, "",
+		"docker.io/istio", s.Image.Tag, s.Image.Variant, s.Image.PullPolicy)
 
 	scopes.Framework.Infof("=== installing with IOP: ===\n%s\n", overlayYAML)
 
