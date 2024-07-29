@@ -112,8 +112,6 @@ function buildx-create() {
 }
 
 function build_images() {
-  SELECT_TEST="${1}"
-
   # Build just the images needed for tests
   targets="docker.operator "
 
@@ -121,12 +119,12 @@ function build_images() {
   arch="linux/amd64"
   localArch="$(uname -m)"
   if [[ ${localArch} == "aarch64" || ${localArch} == "arm64"  ]]; then
-      arch="linux/arm64"
+    arch="linux/arm64"
   fi
   if [[ "${VARIANT:-default}" == "distroless" ]]; then
     DOCKER_ARCHITECTURES="${arch}" DOCKER_BUILD_VARIANTS="distroless" DOCKER_TARGETS="${targets}" make dockerx.pushx
   else
-   DOCKER_ARCHITECTURES="${arch}"  DOCKER_BUILD_VARIANTS="${VARIANT:-default}" DOCKER_TARGETS="${targets}" make dockerx.pushx
+    DOCKER_ARCHITECTURES="${arch}"  DOCKER_BUILD_VARIANTS="${VARIANT:-default}" DOCKER_TARGETS="${targets}" make dockerx.pushx
   fi
 }
 
