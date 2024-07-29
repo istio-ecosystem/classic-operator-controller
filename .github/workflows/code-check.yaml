@@ -23,14 +23,8 @@ jobs:
           cache: true
       # enable modules that needed by Istio Dual Stack
       - run: make lint
-        env:
-          BUILD_WITH_CONTAINER: 0
       - run: make test
-        env:
-          BUILD_WITH_CONTAINER: 0
       - run: make build
-        env:
-          BUILD_WITH_CONTAINER: 0
 
   e2e:
     name: e2e
