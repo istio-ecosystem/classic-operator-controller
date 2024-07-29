@@ -3,9 +3,7 @@ name: Code Check
 on:
   push:
     branches:
-    - "master"
-    # paths:
-    # - 'k8s/kind/**'
+    - "main"
 
 permissions:
   contents: read
