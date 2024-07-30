@@ -9,6 +9,12 @@ permissions:
   contents: read
   packages: write
 
+# Limit workflow run or job concurrency,
+# avoid workflow failed when merge more than one PR in short time.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   build-check:
     name: lint
@@ -53,6 +59,11 @@ jobs:
         with:
           go-version: 1.22.x
           cache: true
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
       - run: make docker.push
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
